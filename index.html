@@ -1,34 +1,33 @@
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Mission: Mars</title>
-    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>    
-  </head>
-  <body>
-    <a-scene>
-      <!-- Asset managment system. -->
-      <a-assets>
-        <img id="groundTexture" src="http://68.media.tumblr.com/f6ed27dca50d035dc9125be0cc17f087/tumblr_ow6b89zY2S1ud2pflo1_1280.jpg">
-        <img id="skyTexture" src="https://40.media.tumblr.com/554d4f416ba0bf73fddc56a7d4296570/tumblr_n3b0ej27Or1steq1xo5_1280.jpg">
-      </a-assets>
 
-      <!-- Scene. -->
-      <a-box id="box" function color="red" position="0 2 -5" rotation="0 45 45" scale="2 2 2">
-        <a-animation attribute="position" to="0 2.2 -5" direction="alternate" dur="1000"
-      repeat="indefinite"></a-animation>
-      </a-box>
-      <a-text value="Mission: Mars" position="0 4 -5" align="center" color="black"></a-text>
-      <a-sky src="#skyTexture"></a-sky>
-      <a-plane src="#groundTexture" rotation="-90 0 0" width="30" height="30" repeat="30 30"></a-plane>
-      <a-light type="ambient" intensity="0.5" color="#f2cd79"></a-light>
-      <a-light type="point" intensity="1" position="0 30 0"></a-light>
+<head>
+  <meta charset="utf-8">
+  <title>Mission: Mars</title>
+  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/test.js"></script>
+</head>
 
-      <a-camera>
-        <a-cursor></a-cursor>
-      </a-camera>
+<body>
+  <a-scene>
+    <!-- Asset managment system. -->
+    <a-assets>
+      <img id="groundTexture" src="http://68.media.tumblr.com/f6ed27dca50d035dc9125be0cc17f087/tumblr_ow6b89zY2S1ud2pflo1_1280.jpg">
+      <img id="skyTexture" src="https://40.media.tumblr.com/554d4f416ba0bf73fddc56a7d4296570/tumblr_n3b0ej27Or1steq1xo5_1280.jpg">
+    </a-assets>
 
-    </a-scene>
-    <script src="js/script.js"></script>
-  </body>
+    <a-sky src="#skyTexture"></a-sky>
+    <a-plane src="#groundTexture" rotation="-90 0 0" width="30" height="30" repeat="30 30"></a-plane>
+
+    <!-- Test box, change to "rover" object later... -->
+    <a-entity id="box" wasd-controls box geometry="primitive: box" material="color: red" position="0 2 0"></a-entity>
+
+    <a-light type="ambient" intensity="0.5" color="#f2cd79"></a-light>
+    <a-light type="point" intensity="1" position="0 30 0"></a-light>
+    
+    <a-entity id="camera" camera="userHeight: 1.6" look-controls follow="target: #box"></a-entity>
+  </a-scene>
+</body>
+
 </html>
