@@ -1,0 +1,32 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Mission: Mars</title>
+  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+  <script src="js/script.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    <!-- Asset managment system. -->
+    <a-assets>
+      <img id="skyTexture" src="assets/mars_skybox.jpg"></img>
+      <a-asset-item id="marsLandscape" src="assets/mars_landscape/mars_landscape.gltf"></a-asset-item>
+      <a-asset-item id="marsRover" src="assets/mars_rover/scene.gltf"></a-asset-item>
+    </a-assets>
+
+    <a-entity gltf-model="#marsLandscape"></a-entity>
+
+    <a-light type="ambient" intensity="0.5" color="#f2cd79"></a-light>
+    <a-light type="point" intensity="1" position="0 30 0"></a-light>
+    
+    <a-entity id="marsRoverEntity" gltf-model="#marsRover" wasd-controls scale="0.005 0.005 0.005" rotation="0 0 0">
+      <a-sky src="#skyTexture" radius="10000"></a-sky>
+      <a-entity id="camera" camera position="0 150 50" look-controls></a-entity>
+    </a-entity>
+  </a-scene>
+</body>
+
+</html>
