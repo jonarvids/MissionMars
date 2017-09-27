@@ -64,10 +64,10 @@ function release(e) {
 
 AFRAME.registerComponent("movement-controls", {
 
-    tick: function(time, delta) {
+    tick: function (time, delta) {
         var rover = this.el.object3D;
-        
-        var velocity = delta/1000;
+
+        var velocity = delta / 1000;
         if (up) {
             rover.translateZ(velocity);
         }
@@ -79,10 +79,8 @@ AFRAME.registerComponent("movement-controls", {
         }
         if (right) {
             rover.rotateY(-velocity);
-        } 
-
+        }
     }
-
 })
 
 
