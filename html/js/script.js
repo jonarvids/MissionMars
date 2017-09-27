@@ -1,20 +1,7 @@
-AFRAME.registerComponent("box", {
 
-    init: function () {
-        var el = this.el;
-
-        var scaleState = false;
-        el.addEventListener("click", function () {
-            if (!scaleState) {
-                el.setAttribute("scale", { x: 1, y: 1, z: 1 });
-            } else {
-                el.setAttribute("scale", { x: 0.5, y: 0.5, z: 0.5 });
-            }
-            scaleState = !scaleState;
-        });
-    }
-});
-
+/*
+    Not used
+*/
 AFRAME.registerComponent("follow", {
 
     schema: {
@@ -37,72 +24,65 @@ AFRAME.registerComponent("follow", {
     },
 });
 
-
-
-
-
-
 var up = false,
     right = false,
     down = false,
     left = false;
 
 
-document.addEventListener('keydown',press)
-function press(e){
-  if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
-    up = true
-  }
-  if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
-    right = true
-  }
-  if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
-    down = true
-  }
-  if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
-    left = true
-  }
-}
-document.addEventListener('keyup',release)
-function release(e){
-  if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */){
-    up = false
-  }
-  if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */){
-    right = false
-  }
-  if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */){
-    down = false
-  }
-  if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */){
-    left = false
-  }
+document.addEventListener('keydown', press)
+function press(e) {
+    if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */) {
+        up = true
+    }
+    if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */) {
+        right = true
+    }
+    if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */) {
+        down = true
+    }
+    if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */) {
+        left = true
+    }
 }
 
-
-
-function gameLoop(){
-  var rover = document.getElementById('rover').object3D;
-
-  if (up){
-  rover.translateZ( -0.1 );
-  }
-  if(down){
-      rover.translateZ(0.1);
-  }
-  if(left){
-      rover.rotateY(0.1);
-  }
-  if(right){
-      rover.rotateY(-0.1);
-  }
-    
-
-
-requestAnimationFrame(gameLoop)
+document.addEventListener('keyup', release)
+function release(e) {
+    if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */) {
+        up = false
+    }
+    if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */) {
+        right = false
+    }
+    if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */) {
+        down = false
+    }
+    if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */) {
+        left = false
+    }
 }
- requestAnimationFrame(gameLoop)
 
+AFRAME.registerComponent("movement-controls", {
 
+    tick: function(time, delta) {
+        var rover = this.el.object3D;
+        
+        var velocity = delta/1000;
+        if (up) {
+            rover.translateZ(velocity);
+        }
+        if (down) {
+            rover.translateZ(-velocity);
+        }
+        if (left) {
+            rover.rotateY(velocity);
+        }
+        if (right) {
+            rover.rotateY(-velocity);
+        } 
+
+    }
+
+})
 
 
