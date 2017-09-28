@@ -1,6 +1,6 @@
 
 /*
-    Not used
+    Not currently used...
 */
 AFRAME.registerComponent("follow", {
 
