@@ -69,10 +69,10 @@ AFRAME.registerComponent("movement-controls", {
 
         var velocity = delta / 1000;
         if (up) {
-            rover.translateZ(velocity);
+            rover.translateZ(velocity*1000);
         }
         if (down) {
-            rover.translateZ(-velocity);
+            rover.translateZ(-velocity*1000);
         }
         if (left) {
             rover.rotateY(velocity);
