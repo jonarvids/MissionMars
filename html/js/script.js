@@ -1,7 +1,4 @@
 
-/*
-    Not currently used...
-*/
 AFRAME.registerComponent("follow", {
 
     schema: {
@@ -33,15 +30,19 @@ var up = false,
 document.addEventListener('keydown', press)
 function press(e) {
     if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */) {
+        console.log("Up");
         up = true
     }
     if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */) {
+        console.log("Right");
         right = true
     }
     if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */) {
+        console.log("Down");
         down = true
     }
     if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */) {
+        console.log("Left");
         left = true
     }
 }
@@ -67,20 +68,23 @@ AFRAME.registerComponent("movement-controls", {
     tick: function (time, delta) {
         var rover = this.el.object3D;
 
-        var velocity = delta / 1000;
+        var velocity = delta / 300;
         if (up) {
-            rover.translateZ(velocity*1000);
+            console.log("Go forward");
+            rover.translateZ(velocity);
         }
         if (down) {
-            rover.translateZ(-velocity*1000);
+            console.log("Go backward");
+            rover.translateZ(-velocity);
         }
         if (left) {
+            console.log("Rotate left");
             rover.rotateY(velocity);
         }
         if (right) {
+            console.log("Rotate right");
             rover.rotateY(-velocity);
         }
     }
-})
-
+});
 
