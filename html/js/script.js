@@ -87,4 +87,3 @@ AFRAME.registerComponent("movement-controls", {
         }
     }
 });
-
