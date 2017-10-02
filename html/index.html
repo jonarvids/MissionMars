@@ -23,10 +23,9 @@
     <!-- Floor -->
     <a-entity id="plane" static-body geometry="primitive: plane; height: 20; width: 20" material="color: grey" rotation="-90 0 0"></a-entity>
 
-    <!-- Rover -->
-      <!-- Camera -->
-      <a-entity id="camera" kinematic-body="radius: 0.5;" universal-controls camera="far: 100000; user-height: 1.6" rotation="0 180 0"></a-entity>
-   
+    <!-- Camera -->
+    <a-entity id="camera" kinematic-body universal-controls="movementSpeed: 0.01" camera="far: 100000; user-height: 1.6" rotation="0 180 0"></a-entity>
+
     <!-- Static boxes -->
     <a-entity static-body geometry="primitive: box" material="color: blue" position="5 0.5 -5"></a-entity>
     <a-entity static-body geometry="primitive: box" material="color: blue" position="3 0.5 4"></a-entity>
@@ -42,7 +41,7 @@
     <a-light type="point" position="0 300 -10000"></a-light>
 
   </a-scene>
-  
-  </body>
+
+</body>
 
 </html>
