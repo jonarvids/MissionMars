@@ -1,10 +1,8 @@
 let socket = io.connect('http://mission-mars.local');
 
-console.log(socket);
 socket.on('update', function (data) {
 	up = down = left = right = false;
 
-	console.log('Test to see if this function gets called.');
 	switch (data.direction) {
 		case 'Forward':
 			up = data.pressed;
