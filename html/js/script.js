@@ -1,3 +1,26 @@
+let socket = io.connect('http://mission-mars.local');
+
+console.log(socket);
+socket.on('update', function (data) {
+	up = down = left = right = false;
+
+	console.log('Test to see if this function gets called.');
+	switch (data.direction) {
+		case 'Forward':
+			up = data.pressed;
+			break;
+		case 'Back':
+			down = data.pressed;
+			break;
+		case 'Left':
+			left = data.pressed;
+			break;
+		case 'Right':
+			right = data.pressed;
+			break;
+	}
+});
+
 AFRAME.registerComponent("box", {
 
     init: function () {

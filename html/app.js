@@ -21,5 +21,6 @@ app.get('/mission-control', function(req, res) {
 io.on('connection', function (socket) {
 	socket.on('control', function (data) {
 		console.log(data.direction + ': ' + data.pressed);
+		io.sockets.emit('update', data);
 	});
 });
