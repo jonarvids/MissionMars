@@ -1,86 +1,111 @@
+let goForward = false,
+		goBackwards = false,
+		turnLeft = false,
+		turnRight = false;
+
+let socket = io.connect('http://mission-mars.local');
+
+socket.on('update', function (data) {
+	goForward = goBackwards = turnLeft = turnRight = false;
+
+	switch (data.direction) {
+		case 'GoForward':
+			goForward = data.pressed;
+			break;
+		case 'GoBackwards':
+			goBackwards = data.pressed;
+			break;
+		case 'TurnLeft':
+			turnLeft = data.pressed;
+			break;
+		case 'TurnRight':
+			turnRight = data.pressed;
+			break;
+	}
+});
+
+AFRAME.registerComponent("box", {
+
+	init: function () {
+		let el = this.el;
+
+		let scaleState = false;
+		el.addEventListener("click", function () {
+			if (!scaleState) {
+				el.setAttribute("scale", { x: 1, y: 1, z: 1 });
+			} else {
+				el.setAttribute("scale", { x: 0.5, y: 0.5, z: 0.5 });
+			}
+			scaleState = !scaleState;
+		});
+	}
+
+});
 
 /*
-    Not currently used...
+		Not currently used...
 */
 AFRAME.registerComponent("follow", {
 
-    schema: {
-        target: { type: 'selector' }
-    },
+	schema: {
+		target: { type: 'selector' }
+	},
 
-    tick: function (time, timeDelta) {
-        var directionVec3 = new THREE.Vector3();
-        var data = this.data;
+	tick: function (time, timeDelta) {
+		let directionVec3 = new THREE.Vector3();
+		let data = this.data;
 
-        // Get the target's position
-        var targetPosition = data.target.object3D.position;
+		// Get the target's position
+		let targetPosition = data.target.object3D.position;
 
-        // Set this element's position to the target's position
-        this.el.setAttribute('position', {
-            x: targetPosition.x,
-            y: targetPosition.y + 0.75,
-            z: targetPosition.z - 0.25
-        });
-    },
+		// Set this element's position to the target's position
+		this.el.setAttribute('position', {
+			x: targetPosition.x,
+			y: targetPosition.y + 0.75,
+			z: targetPosition.z - 0.25
+		});
+	}
+
 });
-
-var up = false,
-    right = false,
-    down = false,
-    left = false;
 
 
 document.addEventListener('keydown', press)
 function press(e) {
-    if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */) {
-        up = true
-    }
-    if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */) {
-        right = true
-    }
-    if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */) {
-        down = true
-    }
-    if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */) {
-        left = true
-    }
+	if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */)
+		goForward = true;
+	if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */)
+		turnRight = true;
+	if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */)
+		goBackwards = true;
+	if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */)
+		turnLeft = true;
 }
 
 document.addEventListener('keyup', release)
 function release(e) {
-    if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */) {
-        up = false
-    }
-    if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */) {
-        right = false
-    }
-    if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */) {
-        down = false
-    }
-    if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */) {
-        left = false
-    }
+	if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */)
+		goForward = false;
+	if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */)
+		turnRight = false;
+	if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */)
+		goBackwards = false;
+	if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */)
+		turnLeft = false;	
 }
 
-AFRAME.registerComponent("movement-controls", {
+function gameLoop() {
+	let rover = document.getElementById('rover').object3D;
 
-    tick: function (time, delta) {
-        var rover = this.el.object3D;
+	if (goForward)
+		rover.translateZ(0.05);
+	if(goBackwards)
+		rover.translateZ(-0.05);
+	if(turnLeft)
+		rover.rotateY(0.05);
+	if(turnRight)
+		rover.rotateY(-0.05);
 
-        var velocity = delta / 1000;
-        if (up) {
-            rover.translateZ(velocity);
-        }
-        if (down) {
-            rover.translateZ(-velocity);
-        }
-        if (left) {
-            rover.rotateY(velocity);
-        }
-        if (right) {
-            rover.rotateY(-velocity);
-        }
-    }
-})
+	requestAnimationFrame(gameLoop)
+}
 
-
+requestAnimationFrame(gameLoop)
