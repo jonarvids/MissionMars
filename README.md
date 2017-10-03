@@ -7,7 +7,6 @@ This project relies on node.js and some of its modules, so in order to get this 
 ```
 npm install express --save
 npm install socket.io
-npm install p5
 ```
 
 ## Git branch naming convention
