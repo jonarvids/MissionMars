@@ -65,9 +65,6 @@ function mouseReleased() {
 	}
 }
 
-function mouseDragged() {
-}
-
 function draw() {
   background(10);
 	noStroke();
@@ -81,7 +78,7 @@ function draw() {
 		fill(0, 70, 100);
 	else
 		fill(0, 70, 80);
-	triangle(0, h, 0, 0, h/2, h/2);
+	triangle(0, h, 0, 0, w/2, h/2);
 	brightness = 80;
 
 	// forward button

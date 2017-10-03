@@ -85,16 +85,16 @@ function gameLoop(){
   var rover = document.getElementById('rover').object3D;
 
   if (up){
-  rover.translateZ( -0.1 );
+  rover.translateZ( 0.05 );
   }
   if(down){
-      rover.translateZ(0.1);
+      rover.translateZ(-0.05);
   }
   if(left){
-      rover.rotateY(0.1);
+      rover.rotateY(0.05);
   }
   if(right){
-      rover.rotateY(-0.1);
+      rover.rotateY(-0.05);
   }
     
 

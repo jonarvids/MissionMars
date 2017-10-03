@@ -21,10 +21,10 @@
 
     <a-light type="ambient" intensity="0.5" color="#f2cd79"></a-light>
     <a-light type="point" intensity="1" position="0 30 0"></a-light>
+    <a-sky src="#skyTexture" radius="10000"></a-sky>
     
     <a-entity id="rover" gltf-model="#marsRover" scale="0.005 0.005 0.005" rotation="0 0 0">
-      <a-sky src="#skyTexture" radius="10000"></a-sky>
-      <a-entity id="camera" camera position="0 150 50" look-controls></a-entity>
+      <a-entity id="camera" camera scale="200 200 200" rotation="0 180 0" position="0 150 50" look-controls></a-entity>
     </a-entity>
   </a-scene>
 </body>
