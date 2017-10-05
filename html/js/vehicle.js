@@ -47,7 +47,6 @@ window.onload = function () {
         q.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
         wheelBody.addShape(cylinderShape, new CANNON.Vec3(), q);
         wheelBodies.push(wheelBody);
-        demo.addVisual(wheelBody);
     }
 
     // Update wheels
