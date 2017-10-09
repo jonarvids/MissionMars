@@ -20,16 +20,16 @@ socket.on('update', function (data) {
 	goForward = goBackwards = turnLeft = turnRight = false;
 
 		switch (data.direction) {
-		case 'GoForward':
+		case 'Up':
 			goForward = data.pressed;
 			break;
-			case 'GoBackwards':
+			case 'Down':
 				goBackwards = data.pressed;
 			break;
-		case 'TurnLeft':
+		case 'Left':
 			turnLeft = data.pressed;
 				break;
-			case 'TurnRight':
+			case 'Right':
 			turnRight = data.pressed;
 			break;
 	}

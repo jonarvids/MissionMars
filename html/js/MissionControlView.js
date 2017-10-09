@@ -39,13 +39,13 @@ function mousePressed() {
 	pressed = true;
 
 	if (goForward) {
-		socket.emit('control', { direction: 'GoForward', pressed: true });
+		socket.emit('control', { direction: 'Up', pressed: true });
 	} else if (goBackwards) {
-		socket.emit('control', { direction: 'GoBackwards', pressed: true });
+		socket.emit('control', { direction: 'Down', pressed: true });
 	} else if (turnLeft) {
-		socket.emit('control', { direction: 'TurnLeft', pressed: true });
+		socket.emit('control', { direction: 'Left', pressed: true });
 	} else if (turnRight) {
-		socket.emit('control', { direction: 'TurnRight', pressed: true });
+		socket.emit('control', { direction: 'Right', pressed: true });
 	}
 }
 
@@ -53,13 +53,13 @@ function mouseReleased() {
 	pressed = false;
 
 	if (goForward) {
-		socket.emit('control', { direction: 'GoForward', pressed: false });
+		socket.emit('control', { direction: 'Up', pressed: false });
 	} else if (goBackwards) {
-		socket.emit('control', { direction: 'GoBackwards', pressed: false });
+		socket.emit('control', { direction: 'Down', pressed: false });
 	} else if (turnLeft) {
-		socket.emit('control', { direction: 'TurnLeft', pressed: false });
+		socket.emit('control', { direction: 'Left', pressed: false });
 	} else if (turnRight) {
-		socket.emit('control', { direction: 'TurnRight', pressed: false });
+		socket.emit('control', { direction: 'Right', pressed: false });
 	}
 }
 
