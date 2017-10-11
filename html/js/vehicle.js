@@ -1,7 +1,7 @@
-var vehicle;
+var rover;
 
 AFRAME.registerComponent("create-vehicle", {
-    
+
     init: function () {
         if (this.el.hasLoaded) {
             console.log("LOADED");
@@ -11,206 +11,92 @@ AFRAME.registerComponent("create-vehicle", {
             this.el.addEventListener("loaded", this.initVehicle.bind(this));
         }
     },
-    
-    initVehicle: function() {
-        
-        console.log("Element: ",this.el);
-        
-        var entity = document.createElement('a-entity');
-        entity.className = "rover"
-        
-        var world = this.el.systems.physics.driver.world; 
-        
-        // Give the rover a body
-        entity.body = new CANNON.Body({
-            mass: 150,
-            position: new CANNON.Vec3(0, 4, 0),
-            linearDamping: 0.5,
-            angularDamping: 0.5
-        });
-        
-        console.log("Body:", entity.body);
-        
-        // Add a shape to the body
-        entity.body.addShape(new CANNON.Box(new CANNON.Vec3(2, 1, 0.5)));
-        
-        console.log("Shape:", entity.body.shapes);
-        
-        // Apply rotation
-        var rot = new CANNON.Vec3();
-        entity.body.quaternion.setFromEuler(
-            THREE.Math.degToRad(rot.x),
-            THREE.Math.degToRad(rot.y),
-            THREE.Math.degToRad(rot.z),
-            'XYZ'
-        ).normalize();
-        
-        // Create raycast vehicle
-        vehicle = new CANNON.RaycastVehicle({
-            chassisBody: entity.body,
-        });
-        
-        // Wheel options
-        var options = {
-            radius: 0.5,
-            directionLocal: new CANNON.Vec3(0, 0, -1),
-            suspensionStiffness: 30,
-            suspensionRestLength: 0.3,
-            frictionSlip: 5,
-            dampingRelaxation: 2.3,
-            dampingCompression: 4.4,
-            maxSuspensionForce: 100000,
-            rollInfluence:  0.01,
-            axleLocal: new CANNON.Vec3(0, 1, 0),
-            chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
-            maxSuspensionTravel: 0.3,
-            customSlidingRotationalSpeed: -30,
-            useCustomSlidingRotationalSpeed: true
-        };
-        
-        // Add wheels to the vehicle and then add the vehicle to the world
-        options.chassisConnectionPointLocal.set(1, 1, 0);
-        vehicle.addWheel(options);
-        options.chassisConnectionPointLocal.set(1, -1, 0);
-        vehicle.addWheel(options);
-        options.chassisConnectionPointLocal.set(-1, 1, 0);
-        vehicle.addWheel(options);
-        options.chassisConnectionPointLocal.set(-1, -1, 0);
-        vehicle.addWheel(options);
-        //vehicle.addToWorld(world);
 
-        var wheelBodies = [];
-        for(var i=0; i<vehicle.wheelInfos.length; i++){
-            var wheel = vehicle.wheelInfos[i];
-            var cylinderShape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20);
-            var wheelBody = new CANNON.Body({ mass: 1 });
-            var q = new CANNON.Quaternion();
-            q.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
-            wheelBody.addShape(cylinderShape, new CANNON.Vec3(), q);
-            wheelBodies.push(wheelBody);
-        }
+    initVehicle: function () {
 
-        // Update wheels
-        world.addEventListener('postStep', function(){
-            for (var i = 0; i < vehicle.wheelInfos.length; i++) {
-                vehicle.updateWheelTransform(i);
-                var t = vehicle.wheelInfos[i].worldTransform;
-                wheelBodies[i].position.copy(t.position);
-                wheelBodies[i].quaternion.copy(t.quaternion);
-            }
+        var world = document.querySelector("a-scene").systems.physics.driver.world;
+
+        // Materials
+        var groundMaterial = new CANNON.Material("groundMaterial");
+        // Adjust constraint equation parameters for ground/ground contact
+        var ground_ground_cm = new CANNON.ContactMaterial(groundMaterial, groundMaterial, {
+            friction: 0.4,
+            restitution: 0.3,
+            contactEquationStiffness: 1e8,
+            contactEquationRelaxation: 3,
+            frictionEquationStiffness: 1e8,
+            frictionEquationRegularizationTime: 3,
         });
+        // Add contact material to the world
+        world.addContactMaterial(ground_ground_cm);
 
-        console.log(entity.el.getAttribute("position"));
+        // Create a slippery material (friction coefficient = 0.0)
+        var slipperyMaterial = new CANNON.Material("slipperyMaterial");
+        // The ContactMaterial defines what happens when two materials meet.
+        // In this case we want friction coefficient = 0.0 when the slippery material touches ground.
+        var slippery_ground_cm = new CANNON.ContactMaterial(groundMaterial, slipperyMaterial, {
+            friction: 0,
+            restitution: 0.3,
+            contactEquationStiffness: 1e8,
+            contactEquationRelaxation: 3
+        });
+        // We must add the contact materials to the world
+        world.addContactMaterial(slippery_ground_cm);
+
+        var entity = document.createElement('a-box');
+        entity.idName = "rover"
+        entity.setAttribute("dynamic-body", "shape: box; mass: 150");
+        entity.setAttribute("position", "0, 4, 0");
+
+        entity.addEventListener("loaded", function () {
+            document.onkeydown = handler;
+            entity.fixedRotation = true;
+            entity.body.material = slipperyMaterial;
+            rover = entity;
+            var plane = document.querySelector("a-plane");
+            plane.body.material = groundMaterial;
+        });
         this.el.appendChild(entity);
     }
 });
 
-/*
-window.onload = function () {
-    
-    var scene = document.querySelector("a-scene");
-    var world = scene.systems.physics.driver.world; 
+function handler(e) {
 
-    // Create the vehicle
-    var rover = document.getElementById("rover");        
-    vehicle = new CANNON.RaycastVehicle({
-        chassisBody: rover.body,
-    });
+    switch (e.keyCode) {
 
-    // Wheel options
-    var options = {
-        radius: 0.5,
-        directionLocal: new CANNON.Vec3(0, 0, -1),
-        suspensionStiffness: 30,
-        suspensionRestLength: 0.3,
-        frictionSlip: 5,
-        dampingRelaxation: 2.3,
-        dampingCompression: 4.4,
-        maxSuspensionForce: 100000,
-        rollInfluence:  0.01,
-        axleLocal: new CANNON.Vec3(0, 1, 0),
-        chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
-        maxSuspensionTravel: 0.3,
-        customSlidingRotationalSpeed: -30,
-        useCustomSlidingRotationalSpeed: true
-    };
-    // Add wheels to the vehicle and then add the vehicle to the world
-    options.chassisConnectionPointLocal.set(1, 1, 0);
-    vehicle.addWheel(options);
-    options.chassisConnectionPointLocal.set(1, -1, 0);
-    vehicle.addWheel(options);
-    options.chassisConnectionPointLocal.set(-1, 1, 0);
-    vehicle.addWheel(options);
-    options.chassisConnectionPointLocal.set(-1, -1, 0);
-    vehicle.addWheel(options);
-    vehicle.addToWorld(world);
+        case 38: // forward
+            var bodyCenter = new CANNON.Vec3(rover.body.position.x,
+                rover.body.position.y,
+                rover.body.position.z);
+            var accelerationImpulse = new CANNON.Vec3(bodyCenter.x, bodyCenter.y, -100);
+            var accelerationImpulse = rover.body.quaternion.vmult(accelerationImpulse);
+            rover.body.applyImpulse(accelerationImpulse, bodyCenter);
+            rover.body.angularVelocity.set(0, 0, 0);
+            break;
 
-    // Give the wheel bodies which can not be displayed at the moment...
-    var wheelBodies = [];
-    for(var i=0; i<vehicle.wheelInfos.length; i++){
-        var wheel = vehicle.wheelInfos[i];
-        var cylinderShape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20);
-        var wheelBody = new CANNON.Body({ mass: 1 });
-        var q = new CANNON.Quaternion();
-        q.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
-        wheelBody.addShape(cylinderShape, new CANNON.Vec3(), q);
-        wheelBodies.push(wheelBody);
+        case 40: // backward
+            var bodyCenter = new CANNON.Vec3(rover.body.position.x,
+                rover.body.position.y,
+                rover.body.position.z);
+            var accelerationImpulse = new CANNON.Vec3(bodyCenter.x, bodyCenter.y, 100);
+            var accelerationImpulse = rover.body.quaternion.vmult(accelerationImpulse);
+            rover.body.applyImpulse(accelerationImpulse, bodyCenter);
+            rover.body.angularVelocity.set(0, 0, 0);
+            break;
+
+        case 39: // right
+            console.log(rover.body.angularVelocity);
+            var directionVector = new CANNON.Vec3(0, -1, 0);
+            var directionVector = rover.body.quaternion.vmult(directionVector);
+            rover.body.angularVelocity.set(directionVector.x, directionVector.y, directionVector.z);
+            break;
+
+        case 37: // left
+            var directionVector = new CANNON.Vec3(0, 1, 0);
+            var directionVector = rover.body.quaternion.vmult(directionVector);
+            rover.body.angularVelocity.set(directionVector.x, directionVector.y, directionVector.z);
+            break;
     }
-
-    // Update wheels
-    world.addEventListener('postStep', function(){
-        for (var i = 0; i < vehicle.wheelInfos.length; i++) {
-            vehicle.updateWheelTransform(i);
-            var t = vehicle.wheelInfos[i].worldTransform;
-            wheelBodies[i].position.copy(t.position);
-            wheelBodies[i].quaternion.copy(t.quaternion);
-        }
-    });
-};
-*/
-
-document.onkeydown = handler;
-document.onkeyup = handler;
-
-var maxSteerVal = 0.75;
-var maxForce = 500;
-var brakeForce = 1000000;
-
-function handler(event) {
-    
-    var up = (event.type == 'keyup');
-
-    if(!up && event.type !== 'keydown'){
-        return;
-    } else if (up) {
-        vehicle.setBrake(brakeForce, 0);
-        vehicle.setBrake(brakeForce, 1);
-        vehicle.setBrake(brakeForce, 2);
-        vehicle.setBrake(brakeForce, 3);
-        return;
-    }
-
-    switch(event.keyCode){
-
-    case 38: // forward
-        vehicle.applyEngineForce(up ? 0 : -maxForce, 2);
-        vehicle.applyEngineForce(up ? 0 : -maxForce, 3);
-        break;
-
-    case 40: // backward
-        vehicle.applyEngineForce(up ? 0 : maxForce, 2);
-        vehicle.applyEngineForce(up ? 0 : maxForce, 3);
-        break;
-
-    case 39: // right
-        vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 0);
-        vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 1);
-        break;
-
-    case 37: // left
-        vehicle.setSteeringValue(up ? 0 : maxSteerVal, 0);
-        vehicle.setSteeringValue(up ? 0 : maxSteerVal, 1);
-        break;
-
-    }
+    rover.body.linearDamping = 0.9999;
+    rover.body.angularDamping = 0.9999;
 }
