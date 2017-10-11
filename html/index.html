@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Mission: Mars</title>
@@ -6,28 +7,35 @@
   <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.0.0/dist/aframe-physics-system.min.js"></script>
   <script src="js/vehicle.js"></script>
 </head>
+
 <body>
-  <a-scene physics="debug: true; friction: 0.0" create-vehicle>
+  <a-scene physics="debug: true; friction: 0.0">
     <!-- Asset managment system. -->
     <a-assets>
-        <a-asset-item id="marsRover" src="assets/mars_rover/scene.gltf"></a-asset-item>
+      <a-asset-item id="marsRover" src="assets/mars_rover/scene.gltf"></a-asset-item>
     </a-assets>
     <!-- Floor -->
-    <a-plane height="20" width="20" color="grey" rotation="-90 0 0" static-body></a-plane>
-      
+    <a-plane id="ground" height="20" width="20" color="grey" rotation="-90 0 0" static-body></a-plane>
+
     <!-- Static boxes -->
     <a-box color="blue" position="5 0.5 -5" static-body></a-box>
     <a-box color="blue" position="3 0.5 4" static-body></a-box>
-    <a-box color="blue" position="-2 0.5 -1" static-body ></a-box>
+    <a-box color="blue" position="-2 0.5 -1" static-body></a-box>
 
     <!-- Dynamic boxes -->
     <a-box color="green" position="4 0.5 -3" dynamic-body></a-box>
-    <a-box color="green" position="1 0.5 2"  dynamic-body></a-box>
+    <a-box color="green" position="1 0.5 2" dynamic-body></a-box>
     <a-box color="green" position="-3 0.5 4" dynamic-body></a-box>
-      
-    <!-- Camera -->
-    <a-entity id="camera" camera="far: 100000; user-height: 1.6" position="0 0 8" look-controls></a-entity>
-      
+
+   
+    <!-- Rover -->
+    <a-box id="rover" dynamic-body="mass: 150; shape: box" position="0 0.5 0" make-vehicle>
+ <!-- Camera -->
+ <a-entity id="camera" camera="far: 100000; user-height: 1.6" position="0 0 0" look-controls></a-entity>
+ 
+    </a-box>
+
   </a-scene>
 </body>
+
 </html>

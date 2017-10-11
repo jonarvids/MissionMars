@@ -1,13 +1,11 @@
-var rover;
-
-AFRAME.registerComponent("create-vehicle", {
+AFRAME.registerComponent("make-vehicle", {
 
     init: function () {
         if (this.el.hasLoaded) {
-            console.log("LOADED");
+            console.log("Vehicle entity is loaded!");
             this.initVehicle();
         } else {
-            console.log("EVENT");
+            console.log("Vehicle entity is not yet loaded...");
             this.el.addEventListener("loaded", this.initVehicle.bind(this));
         }
     },
@@ -15,8 +13,9 @@ AFRAME.registerComponent("create-vehicle", {
     initVehicle: function () {
 
         var world = document.querySelector("a-scene").systems.physics.driver.world;
+        var el = this.el;
 
-        // Materials
+        // Creating materials
         var groundMaterial = new CANNON.Material("groundMaterial");
         // Adjust constraint equation parameters for ground/ground contact
         var ground_ground_cm = new CANNON.ContactMaterial(groundMaterial, groundMaterial, {
@@ -43,60 +42,53 @@ AFRAME.registerComponent("create-vehicle", {
         // We must add the contact materials to the world
         world.addContactMaterial(slippery_ground_cm);
 
-        var entity = document.createElement('a-box');
-        entity.idName = "rover"
-        entity.setAttribute("dynamic-body", "shape: box; mass: 150");
-        entity.setAttribute("position", "0, 4, 0");
-
-        entity.addEventListener("loaded", function () {
+        el.addEventListener("body-loaded", function () {
             document.onkeydown = handler;
-            entity.fixedRotation = true;
-            entity.body.material = slipperyMaterial;
-            rover = entity;
-            var plane = document.querySelector("a-plane");
+            // Apply materials to vehicle and ground
+            el.body.material = slipperyMaterial;
+            var plane = document.getElementById("ground");
             plane.body.material = groundMaterial;
         });
-        this.el.appendChild(entity);
     }
 });
 
 function handler(e) {
 
+    var vehicle = document.getElementById("rover").body;
+    var directionVector = new CANNON.Vec3();
+    var accelerationImpulse = new CANNON.Vec3();
+    var bodyCenter = new CANNON.Vec3(vehicle.position.x,
+        vehicle.position.y,
+        vehicle.position.z);
+
     switch (e.keyCode) {
 
         case 38: // forward
-            var bodyCenter = new CANNON.Vec3(rover.body.position.x,
-                rover.body.position.y,
-                rover.body.position.z);
-            var accelerationImpulse = new CANNON.Vec3(bodyCenter.x, bodyCenter.y, -100);
-            var accelerationImpulse = rover.body.quaternion.vmult(accelerationImpulse);
-            rover.body.applyImpulse(accelerationImpulse, bodyCenter);
-            rover.body.angularVelocity.set(0, 0, 0);
+            accelerationImpulse = new CANNON.Vec3(bodyCenter.x, bodyCenter.y, -100);
+            accelerationImpulse = vehicle.quaternion.vmult(accelerationImpulse);
+            vehicle.applyImpulse(accelerationImpulse, bodyCenter);
+            vehicle.angularVelocity.set(0, 0, 0);
             break;
 
         case 40: // backward
-            var bodyCenter = new CANNON.Vec3(rover.body.position.x,
-                rover.body.position.y,
-                rover.body.position.z);
-            var accelerationImpulse = new CANNON.Vec3(bodyCenter.x, bodyCenter.y, 100);
-            var accelerationImpulse = rover.body.quaternion.vmult(accelerationImpulse);
-            rover.body.applyImpulse(accelerationImpulse, bodyCenter);
-            rover.body.angularVelocity.set(0, 0, 0);
+            accelerationImpulse = new CANNON.Vec3(bodyCenter.x, bodyCenter.y, 100);
+            accelerationImpulse = vehicle.quaternion.vmult(accelerationImpulse);
+            vehicle.applyImpulse(accelerationImpulse, bodyCenter);
+            vehicle.angularVelocity.set(0, 0, 0);
             break;
 
         case 39: // right
-            console.log(rover.body.angularVelocity);
-            var directionVector = new CANNON.Vec3(0, -1, 0);
-            var directionVector = rover.body.quaternion.vmult(directionVector);
-            rover.body.angularVelocity.set(directionVector.x, directionVector.y, directionVector.z);
+            directionVector = new CANNON.Vec3(0, -1, 0);
+            directionVector = vehicle.quaternion.vmult(directionVector);
+            vehicle.angularVelocity.set(directionVector.x, directionVector.y, directionVector.z);
             break;
 
         case 37: // left
-            var directionVector = new CANNON.Vec3(0, 1, 0);
-            var directionVector = rover.body.quaternion.vmult(directionVector);
-            rover.body.angularVelocity.set(directionVector.x, directionVector.y, directionVector.z);
+            directionVector = new CANNON.Vec3(0, 1, 0);
+            directionVector = vehicle.quaternion.vmult(directionVector);
+            vehicle.angularVelocity.set(directionVector.x, directionVector.y, directionVector.z);
             break;
     }
-    rover.body.linearDamping = 0.9999;
-    rover.body.angularDamping = 0.9999;
+    vehicle.linearDamping = 0.9999;
+    vehicle.angularDamping = 0.9999;
 }
