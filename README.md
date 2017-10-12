@@ -1,6 +1,14 @@
 # Mission Mars
 CIU265 Interaction Design Project
 
+## Setup
+This project relies on node.js and some of its modules, so in order to get this project running, install node.js along with npm and run the following commands in the 'html' directory:
+
+```
+npm install express --save
+npm install socket.io
+```
+
 ## Git branch naming convention
 token-{three word summary or less}
 
