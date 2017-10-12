@@ -1,11 +1,12 @@
 AFRAME.registerComponent("make-vehicle", {
 
     init: function () {
+        // The below code makes sure the entity has been initialized before making changes to it
         if (this.el.hasLoaded) {
-            console.log("Vehicle entity is loaded!");
+            // The entity is loaded so initialize vehicle
             this.initVehicle();
         } else {
-            console.log("Vehicle entity is not yet loaded...");
+            // The entity is not yet loaded, so initialize vehicle when it is
             this.el.addEventListener("loaded", this.initVehicle.bind(this));
         }
     },
@@ -17,8 +18,11 @@ AFRAME.registerComponent("make-vehicle", {
 
         // Creating materials
         var groundMaterial = new CANNON.Material("groundMaterial");
-        // Adjust constraint equation parameters for ground/ground contact
-        var ground_ground_cm = new CANNON.ContactMaterial(groundMaterial, groundMaterial, {
+        var slipperyMaterial = new CANNON.Material("slipperyMaterial");
+
+        // ContactMaterial defines what happens when two materials meet
+        var groundContactMaterial = new CANNON.ContactMaterial(groundMaterial, groundMaterial, {
+            // Set constraints for ground/ground contact
             friction: 0.4,
             restitution: 0.3,
             contactEquationStiffness: 1e8,
@@ -26,25 +30,22 @@ AFRAME.registerComponent("make-vehicle", {
             frictionEquationStiffness: 1e8,
             frictionEquationRegularizationTime: 3,
         });
-        // Add contact material to the world
-        world.addContactMaterial(ground_ground_cm);
 
-        // Create a slippery material (friction coefficient = 0.0)
-        var slipperyMaterial = new CANNON.Material("slipperyMaterial");
-        // The ContactMaterial defines what happens when two materials meet.
-        // In this case we want friction coefficient = 0.0 when the slippery material touches ground.
-        var slippery_ground_cm = new CANNON.ContactMaterial(groundMaterial, slipperyMaterial, {
-            friction: 0,
+        var slipperyContactMaterial = new CANNON.ContactMaterial(groundMaterial, slipperyMaterial, {
+            // Create a slippery material (friction coefficient = 0.0)
+            friction: 0.0,
             restitution: 0.3,
             contactEquationStiffness: 1e8,
             contactEquationRelaxation: 3
         });
-        // We must add the contact materials to the world
-        world.addContactMaterial(slippery_ground_cm);
+        // The ContactMaterials must be added to the world
+        world.addContactMaterial(groundContactMaterial);
+        world.addContactMaterial(slipperyContactMaterial);
 
+        // Make sure the body of the entity has been initialized before making changes (otherwise body is undefined)
         el.addEventListener("body-loaded", function () {
-            document.onkeydown = handler;
-            // Apply materials to vehicle and ground
+            document.onkeydown = keyEventHandler;
+            // Apply materials to entity and ground
             el.body.material = slipperyMaterial;
             var plane = document.getElementById("ground");
             plane.body.material = groundMaterial;
@@ -52,7 +53,9 @@ AFRAME.registerComponent("make-vehicle", {
     }
 });
 
-function handler(e) {
+// Add movement controls to document
+
+function keyEventHandler(e) {
 
     var vehicle = document.getElementById("rover").body;
     var directionVector = new CANNON.Vec3();
@@ -60,6 +63,11 @@ function handler(e) {
     var bodyCenter = new CANNON.Vec3(vehicle.position.x,
         vehicle.position.y,
         vehicle.position.z);
+    var up = (e.type == "keyup");
+
+    if (!up && e.type !== "keydown") {
+        return;
+    }
 
     switch (e.keyCode) {
 
