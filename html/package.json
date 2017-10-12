@@ -3,11 +3,10 @@
 	"version": "0.1.0",
 	"main": "app.js",
 	"scripts": {
-		"start": "sudo node app.js `ifconfig wlan0 | awk '/inet addr:/ {print $2}' | sed 's/addr://'`"
+		"start": "sudo node app.js"
 	},
 	"author": "Jonas Arvidsson, Jonathan Granström, Hampus Lidin",
 	"dependencies": {
-		"aframe": "~0.7.0",
 		"express": "~4.16.2",
 		"socket.io": "~2.0.3",
 		"python-shell": "~0.4.0"

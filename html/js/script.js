@@ -14,8 +14,7 @@ let prevTime = Date.now();
 let velocity = 0;
 let inertia = 0;
 
-let socket = io.connect('http://172.20.10.14');
-console.log('Update');
+let socket = io.connect('http://192.168.0.10');
 
 socket.on('update', function (data) {
 	switch (data.direction) {

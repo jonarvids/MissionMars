@@ -3,33 +3,38 @@
 <head>
   <meta charset="utf-8">
   <title>Mission Mars</title>
+
   <!-- A-Frame -->
   <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
   <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.0.0/dist/aframe-physics-system.min.js"></script>
   <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+
   <!-- socket.io -->
   <script src="/socket.io/socket.io.js"></script>
+
   <!-- Game logic -->
   <script src="js/script.js"></script>
 </head>
 
 <body>
   <a-scene physics="debug: true; friction: 0.0">
+
     <!-- Asset managment system. -->
     <a-assets>
       <img id="skyTexture" src="assets/mars_skybox.jpg"></img>
-      <a-asset-item id="marsLandscape" src="assets/mars_landscape/mars_landscape.gltf"></a-asset-item>
-      <a-asset-item id="marsRover" src="assets/mars_rover/scene.gltf"></a-asset-item>
+			<a-asset-item id="marsLandscapeObj" src="assets/mars_landscape/mars_landscape.obj"></a-asset-item>
+			<a-asset-item id="marsLandscapeMtl" src="assets/mars_landscape/mars_landscape.mtl"></a-asset-item>
     </a-assets>
 
     <!-- Sky -->
     <a-sky src="#skyTexture" radius="10000"></a-sky>
 
     <!-- Floor -->
+    <a-entity obj-model="obj: #marsLandscapeObj; mtl: #marsLandscapeMtl"></a-entity>
     <a-entity id="ground" geometry="shape: plane; height: 30; width: 30" material="opacity: 0" rotation="-90 0 0" static-body>
       <!-- Landscape model -->
-      <a-entity gltf-model="#marsLandscape" rotation="90 0 0" position="0 0 0.1"></a-entity>
     </a-entity>
+
     <!-- Walls -->
     <a-entity geometry="shape: box; height: 5; width: 30" position="0 0 -15" material="opacity: 0" static-body></a-entity>
     <a-entity geometry="shape: box; height: 5; width: 30" position="0 0 15" material="opacity: 0" static-body></a-entity>
