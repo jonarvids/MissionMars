@@ -14,12 +14,10 @@ let prevTime = Date.now();
 let velocity = 0;
 let inertia = 0;
 
-/*
-let socket = io.connect('http://mission-mars.local');
+let socket = io.connect('http://172.20.10.14');
+console.log('Update');
 
 socket.on('update', function (data) {
-	goForward = goBackwards = turnLeft = turnRight = false;
-
 	switch (data.direction) {
 		case 'Up':
 			goForward = data.pressed;
@@ -35,7 +33,6 @@ socket.on('update', function (data) {
 			break;
 	}
 });
-*/
 
 AFRAME.registerComponent("make-vehicle", {
 

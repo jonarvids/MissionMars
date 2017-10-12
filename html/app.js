@@ -9,7 +9,7 @@ let pyshell = require('python-shell');
 //-- Input
 //------------------------------------//
 
-function Input(pin, name, debounce_delay = 100) {
+function Input(pin, name, debounce_delay = 10) {
 	// Start python process for reading the GPIO pin
 	let gpio = new pyshell(
 		'/python/gpio.py',
@@ -62,11 +62,11 @@ app.use('/js', express.static(path.join(__dirname, '/js')));
 app.use('/python', express.static(path.join(__dirname, '/python')));
 
 app.get('/', function (req, res) {
-	res.sendFile(__dirname + '/index.html');
+	res.sendFile(path.join(__dirname,'/index.html'));
 });
 
 app.get('/mission-control', function(req, res) {
-	res.sendFile(__dirname + '/mission-control.html');
+	res.sendFile(path.join(__dirname, '/mission-control.html'));
 });
 
 io.on('connection', function (socket) {
