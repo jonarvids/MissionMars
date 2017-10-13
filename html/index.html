@@ -17,30 +17,53 @@
 </head>
 
 <body>
-  <a-scene physics="debug: true; friction: 0.0">
+  <a-scene physics="debug: true; friction: 0.0; restitution: 0.0">
 
     <!-- Asset managment system. -->
     <a-assets>
-      <img id="skyTexture" src="assets/mars_skybox.jpg"></img>
-			<a-asset-item id="marsLandscapeObj" src="assets/mars_landscape/mars_landscape.obj"></a-asset-item>
-			<a-asset-item id="marsLandscapeMtl" src="assets/mars_landscape/mars_landscape.mtl"></a-asset-item>
+				
+			<!-- Sky box -->
+      <img
+				id="skyTexture"
+				src="assets/mars_skybox.jpg">
+			</img>
+			
+			<!-- Landscape -->
+			<a-asset-item
+				id="marsLandscapeObj"
+				src="assets/mars_landscape/mars_landscape.obj">
+			</a-asset-item>
+			<img
+				id="marsSandTex" 
+				src="assets/mars_landscape/mars_sand.png">
+			</img>
+
+			<!-- Rover -->
+			<a-asset-item
+				id="roverObj"
+				src="assets/mars_rover/scene.gltf">
+			</a-asset-item>
     </a-assets>
 
     <!-- Sky -->
-    <a-sky src="#skyTexture" radius="10000"></a-sky>
+    <a-sky 
+			src="#skyTexture"
+			radius="10000">
+		</a-sky>
 
-    <!-- Floor -->
-    <a-entity obj-model="obj: #marsLandscapeObj; mtl: #marsLandscapeMtl"></a-entity>
-    <a-entity id="ground" geometry="shape: plane; height: 30; width: 30" material="opacity: 0" rotation="-90 0 0" static-body>
-      <!-- Landscape model -->
-    </a-entity>
+    <!-- Ground -->
+    <a-entity 
+			obj-model="obj: #marsLandscapeObj"
+			material="src: #marsSandTex; repeat: 100 100">
+    	<a-box 
+				id="ground"
+				width="100"
+				depth="100"
+				static-body
+				material="opacity: 0">
+			</a-box>
+		</a-entity>
 
-    <!-- Walls -->
-    <a-entity geometry="shape: box; height: 5; width: 30" position="0 0 -15" material="opacity: 0" static-body></a-entity>
-    <a-entity geometry="shape: box; height: 5; width: 30" position="0 0 15" material="opacity: 0" static-body></a-entity>
-    <a-entity geometry="shape: box; height: 5; depth: 30" position="-15 0 0" material="opacity: 0" static-body></a-entity>
-    <a-entity geometry="shape: box; height: 5; depth: 30" position="15 0 0" material="opacity: 0" static-body></a-entity>
-    
     <!-- Static boxes -->
     <a-box color="blue" position="5 0.5 -5" static-body></a-box>
     <a-box color="blue" position="3 0.5 4" static-body></a-box>
@@ -51,10 +74,17 @@
     <a-box color="green" position="1 0.5 2" dynamic-body></a-box>
     <a-box color="green" position="-3 0.5 4" dynamic-body></a-box>
 
-    <!-- Rover -->
-    <a-box id="rover" dynamic-body="mass: 150; shape: box" position="0 2 0" make-vehicle>
-      <!-- Camera -->
-      <a-entity id="camera" camera="far: 100000; user-height: 1.6" position="0 0 0" look-controls></a-entity>
+    <!-- Rover / camera -->
+    <a-box 
+			id="rover" 
+			dynamic-body="mass: 150; shape: box"
+			position="0 2 0"
+			rover-controls>
+      <a-entity
+				id="camera"
+				camera="far: 11000; user-height: 1.6"
+				look-controls>
+			</a-entity>
     </a-box>
 
     <!-- Light -->

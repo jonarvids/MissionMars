@@ -4,6 +4,7 @@ let server = require('http').Server(app);
 let io = require('socket.io')(server);
 let path = require('path');
 let pyshell = require('python-shell');
+let isPi = require('detect-rpi');
 
 //------------------------------------//
 //-- Input
@@ -75,7 +76,9 @@ io.on('connection', function (socket) {
 	});
 });
 
-let up_input    = new Input(11, 'Up');
-let down_input  = new Input(12, 'Down');
-let left_input  = new Input(13, 'Left');
-let right_input = new Input(15, 'Right');
+if (isPi()) {
+	let up_input    = new Input(11, 'Up');
+	let down_input  = new Input(12, 'Down');
+	let left_input  = new Input(13, 'Left');
+	let right_input = new Input(15, 'Right');
+}
