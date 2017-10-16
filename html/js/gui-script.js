@@ -13,14 +13,16 @@ function press(e) {
         //to test hp
         var currentHp = parseInt(document.getElementById("hpMeter").style.width);
 
-        var damageTaken = 10;
-        var newHp = (currentHp - damageTaken);
+        if (parseInt(currentHp) > 0) {
+            var damageTaken = 10;
+            var newHp = (currentHp - damageTaken);
 
-        var hpText = document.getElementById("hpText").innerHTML = (newHp.toString() + "%");
+            var hpText = document.getElementById("hpText").innerHTML = (newHp.toString() + "%");
 
-        console.log("New hp = " + newHp + "%");
+            console.log("New hp = " + newHp + "%");
 
-        document.getElementById("hpMeter").style.width = (newHp.toString() + "%");
+            document.getElementById("hpMeter").style.width = (newHp.toString() + "%");
+        }
 
         //Rover
         if (newHp >= 80) {
@@ -155,3 +157,26 @@ function healthBar() {
 
 
 //Battery
+
+var batterFunction = setInterval(function () {
+    var deltaTime = 1
+
+    var currentBattery = parseInt(document.getElementById("batteryMeter").style.width);
+
+    newBattery = (currentBattery - deltaTime);
+
+    currentBattery = document.getElementById("batteryMeter").style.width = (newBattery.toString() + "%");
+
+    var hpText = document.getElementById("batteryText").innerHTML = (newBattery.toString() + "%");
+
+
+    if (newBattery < 33) {
+        document.getElementById("batteryMeter").classList.add('bg-danger');
+
+    }
+
+    if (newBattery === 0) {
+        clearInterval(batterFunction);
+    }
+
+}, 1000);
