@@ -6,10 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Script -->
+    <script src="js/gui-script.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
     <link rel='stylesheet' href="css/gui-styles.css">
+
+
 </head>
 
 <body>
@@ -25,8 +29,8 @@
                     <div class="col-12">
                         <h1>Hälsomätare</h1>
                         <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                                <p class="progress-text">100%</p>
+                            <div id="hpMeter" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                <p id="hpText" class="progress-text">100%</p>
                             </div>
                         </div>
 
@@ -35,7 +39,7 @@
                         <div id="battery">
                             <h1>Batterimätare</h1>
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                <div id="batteryMeter" class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                     <p class="progress-text">100%</p>
                                 </div>
                             </div>
@@ -46,7 +50,7 @@
             <div class="roverContainer">
                 <div class="col-12">
                     <div id="roverImg">
-                        <img src="assets/images/roverImage.png" />
+                        <img id="roverImages" src="assets/images/roverImage.png" />
                     </div>
                 </div>
             </div>
@@ -60,20 +64,20 @@
                 <h1>Kontrollsystem</h1>
                 <div class="row">
                     <div class="col-12">
-                        <div class="triangleUp"></div>
+                        <div id="triangleUp"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <div class="triangleLeft"></div>
+                        <div id="triangleLeft"></div>
                     </div>
                     <div class="col-6">
-                        <div class="triangleRight"></div>
+                        <div id="triangleRight"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="triangleDown"></div>
+                        <div id="triangleDown"></div>
                     </div>
                 </div>
             </div>
