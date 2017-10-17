@@ -194,5 +194,4 @@ function gameLoop() {
 }
 
 window.setInterval(function () {
-	console.log("Rover Battery: ", roverBattery, "\n", "Velocity: ", velocity, "Factor:", velocityDecreaseFactor, "\n", "Angular velocity: ", angularVelocity, "Factor: ", angularDecreaseFactor, "\n", "Batter factor", batteryDecreaseFactor);
 }, 500);
