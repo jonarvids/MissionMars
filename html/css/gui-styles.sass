@@ -1,0 +1,171 @@
+//Animated background
+
+// n is number of stars required
+@function multiple-box-shadow ($n) 
+  $value: '#{random(2000)}px #{random(2000)}px #FFF'
+  @for $i from 2 through $n
+    $value: '#{$value} , #{random(2000)}px #{random(2000)}px #FFF'
+
+  @return unquote($value)
+
+$shadows-small:  multiple-box-shadow(700)
+$shadows-medium: multiple-box-shadow(200)
+$shadows-big:    multiple-box-shadow(100)
+
+html, body
+  height: 100%
+  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%)
+  overflow: hidden
+
+
+    
+#stars
+  width: 1px
+  height: 1px
+  background: transparent
+  box-shadow: $shadows-small
+  animation			: animStar 50s linear infinite
+    
+  &:after
+    content: " "
+    position: absolute
+    top: 2000px
+    width: 1px
+    height: 1px
+    background: transparent
+    box-shadow: $shadows-small
+    
+    
+@keyframes animStar
+  from	
+    transform: translateY(0px)
+  to		
+    transform: translateY(-2000px)
+    
+//Components
+    
+
+#title
+  text-align: center
+  h1
+    font-size: 70px
+    color: white
+    
+/*.col-6
+    border-style: solid
+    border-color: #ff0000
+    margin-bottom: 0px
+  
+#hpBar
+    margin-top: 20px
+    margin-left: 10px
+    .progress-bar
+      height: 5rem
+    h1
+      color: white
+    .col-12
+      /*border-style: solid
+      /*border-color: blue
+      
+    
+.progress-text
+  text-align: center
+  font-size: 1.5rem
+  padding-top: 1.8rem
+  color: black
+    
+
+
+#battery    
+    .progress-bar
+      height: 5rem
+    h1
+      color: white
+    
+.bars
+  max-height: 100%
+
+.roverContainer
+  /*border-style: solid
+  /*border-color: blue
+
+#roverImg
+  margin-top: 10px
+  img
+    display: block
+    margin: auto
+    height: 340px
+    width: 340px
+    
+    
+#miniMap
+  /*border-style: solid
+  /*border-color: blue
+  height: 50%
+  text-align: center
+  h1
+    color: white
+
+    
+#controlls
+  height: 50%
+  text-align: center
+  /*border-style: solid
+  /*border-color: green
+  h1
+    color: white
+  .row
+    margin-top: 20px
+    
+.col-4
+  border-style: solid
+  border-color: orange
+
+/*.col-12
+  border-style: solid
+  border-color: brown
+  
+#triangleRight 
+    display: block
+    margin: auto
+    border-right: 20px solid
+    border-bottom: 20px solid
+    border-color: white
+    height: 70px
+    width: 70px
+    transform: rotate(-45deg)
+    /*45 down -45 left 135 right 222 up*/
+    
+#triangleUp
+    display: block
+    margin: auto
+    border-right: 20px solid
+    border-bottom: 20px solid
+    border-color: white
+    height: 70px
+    width: 70px
+    transform: rotate(222deg)
+
+    
+#triangleLeft
+    display: block
+    margin: auto
+    border-right: 20px solid
+    border-bottom: 20px solid
+    border-color: white
+    height: 70px
+    width: 70px
+    transform: rotate(135deg)
+
+    
+#triangleDown 
+    display: block
+    margin: auto
+    border-right: 20px solid
+    border-bottom: 20px solid
+    border-color: white
+    height: 70px
+    width: 70px
+    transform: rotate(45deg)
+
+
