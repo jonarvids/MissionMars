@@ -60,6 +60,7 @@ server.listen(80);
 
 app.use('/assets', express.static(path.join(__dirname, '/assets')));
 app.use('/js', express.static(path.join(__dirname, '/js')));
+app.use('/css', express.static(path.join(__dirname, '/css')));
 app.use('/python', express.static(path.join(__dirname, '/python')));
 
 app.get('/', function (req, res) {
