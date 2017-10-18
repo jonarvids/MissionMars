@@ -1,7 +1,19 @@
 body {
-  margin: 0; }
+  margin: 0 !important;
+  padding: 0 !important; }
 
-.container-fluid {
-  background-color: red; }
+.sectionOne {
+  background-color: red;
+  text-align: center;
+  color: white; }
+
+.sectionTwo {
+  background-color: blue; }
+
+.sectionThree {
+  background-color: yellow; }
+
+.sectionFour {
+  background-color: green; }
 
 /*# sourceMappingURL=styles.css.map */
