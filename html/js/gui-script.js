@@ -1,3 +1,5 @@
+//let io = require('socket.io')(server);
+
 //Controls
 var up, down, left, right;
 
@@ -6,8 +8,11 @@ let roverHealth, roverBattery;
 const socket = io.connect('http://localhost');
 
 socket.on('roverData', (data) => {
-	roverHealth  = data.health;
-	roverBattery = data.battery;
+    roverHealth = data.health;
+    roverBattery = data.battery;
+
+    //console.log(roverHealth);
+    //console.log(roverBattery);
 });
 
 document.addEventListener('keydown', press)
@@ -16,7 +21,7 @@ function press(e) {
     if (e.keyCode === 38 /* up */ || e.keyCode === 87 /* w */ || e.keyCode === 90 /* z */ ) {
         up = true;
         document.getElementById("triangleUp").style.borderColor = "red";
-        console.log("up");
+        //console.log("up");
 
 
         //to test hp
@@ -28,18 +33,18 @@ function press(e) {
 
             var hpText = document.getElementById("hpText").innerHTML = (newHp.toString() + "%");
 
-            console.log("New hp = " + newHp + "%");
+            //console.log("New hp = " + newHp + "%");
 
             document.getElementById("hpMeter").style.width = (newHp.toString() + "%");
         }
 
         //Rover
         if (newHp >= 80) {
-            console.log("över 90");
+            //console.log("över 90");
             document.getElementById("roverImages").src = "assets/images/roverImage.png"
 
         } else if (newHp < 80 && newHp >= 60) {
-            console.log("Under 90");
+            //console.log("Under 90");
             document.getElementById("roverImages").src = "assets/images/roverImage_slightly_damaged.png"
 
         } else if (newHp < 60 && newHp >= 40) {
@@ -73,18 +78,18 @@ function press(e) {
     }
 
     if (e.keyCode === 39 /* right */ || e.keyCode === 68 /* d */ ) {
-        console.log("right")
+        //console.log("right")
         right = true;
         document.getElementById("triangleRight").style.borderColor = "red";
     }
 
     if (e.keyCode === 40 /* down */ || e.keyCode === 83 /* s */ ) {
-        console.log("down")
+        //console.log("down")
         back = true;
         document.getElementById("triangleDown").style.borderColor = "red";
     }
     if (e.keyCode === 37 /* left */ || e.keyCode === 65 /* a */ || e.keyCode === 81 /* q */ ) {
-        console.log("left")
+        //console.log("left")
         left = true;
         document.getElementById("triangleLeft").style.borderColor = "red";
     }
@@ -120,18 +125,18 @@ function healthBar() {
 
     var hpText = document.getElementById("hpText").innerHTML = (newHp.toString() + "%");
 
-    console.log("New hp = " + newHp + "%");
+    //console.log("New hp = " + newHp + "%");
 
     document.getElementById("hpMeter").style.width = (newHp.toString() + "%");
 
 
     //Rover
     if (newHp >= 80) {
-        console.log("över 90");
+        //console.log("över 90");
         document.getElementById("roverImages").src = "assets/images/roverImage.png"
 
     } else if (newHp < 80 && newHp >= 60) {
-        console.log("Under 90");
+        //console.log("Under 90");
         document.getElementById("roverImages").src = "assets/images/roverImage_slightly_damaged.png"
 
     } else if (newHp < 60 && newHp >= 40) {
