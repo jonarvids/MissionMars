@@ -1,7 +1,5 @@
-<html>
-
-<head>
-	<meta charset="utf-8">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<meta charset="utf-8" />
 	<title>Mission Mars</title>
 
 	<!-- A-Frame -->
@@ -16,24 +14,20 @@
 	<script src="js/script.js"></script>
 </head>
 
-<body>
-	<a-scene physics="debug: true; friction: 0.0; restitution: 0.0" track-collisions>
+<body class="a-body ">
+	<a-scene physics="debug: true; friction: 0.0; restitution: 0.0" track-collisions="" class="fullscreen" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui=""><canvas class="a-canvas" data-aframe-canvas="true" width="300" height="150"></canvas>
 
 		<!-- Asset managment system. -->
 		<a-assets>
 
 			<!-- Sky box -->
 			<img id="skyTexture" src="assets/textures/skybox.jpg">
-			</img>
+			
 
 			<!-- Landscape -->
-			<a-asset-item
-				id="landscapeObj"
-				src="assets/objects/landscape.obj">
+			<a-asset-item id="landscapeObj" src="assets/objects/landscape.obj">
 			</a-asset-item>
-			<a-asset-item
-				id="landscapeMtl"
-				src="assets/objects/landscape.mtl">
+			<a-asset-item id="landscapeMtl" src="assets/objects/landscape.mtl">
 			</a-asset-item>
 
 			<!-- Rover -->
@@ -42,118 +36,68 @@
 		</a-assets>
 
 		<!-- Sky -->
-		<a-sky src="#skyTexture" radius="10000">
+		<a-sky src="#skyTexture" radius="10000" material="" geometry="">
 		</a-sky>
 
 		<!-- Ground -->
-		<a-entity
-			obj-model="obj: #landscapeObj; mtl: #landscapeMtl">
-			<a-box id="ground" width="100" depth="100" static-body material="opacity: 0">
+		<a-entity obj-model="obj:assets/objects/landscape.obj;mtl:assets/objects/landscape.mtl">
+			<a-box id="ground" width="100" depth="100" static-body="sphereRadius:NaN" material="opacity:0" geometry="width:10000;depth:10000">
 			</a-box>
 		</a-entity>
 
-		<a-box id="sand" width="20" depth="10" position="10 1 -10" static-body material="opacity: 0"></a-box>
-		<a-box id="sand" width="10" depth="10" position="-10 1 -5" static-body material="opacity: 0"></a-box>
+		<a-box id="sand" width="20" depth="10" position="-750 1 0" static-body="sphereRadius:NaN" material="opacity:0;color:#008000" geometry="height:5;depth:2000;width:500"></a-box><a-box id="sand" width="20" depth="10" position="750 1 0" static-body="sphereRadius:NaN" material="opacity:0;color:#008000" geometry="height:5;width:500;depth:2000"></a-box><a-box id="sand" width="20" depth="10" position="0 1 750" static-body="sphereRadius:NaN" material="opacity:0;color:#008000" geometry="width:1000;depth:500;height:5"></a-box><a-box id="sand" width="20" depth="10" position="0 1 -750" static-body="sphereRadius:NaN" material="opacity:0;color:#008000" geometry="depth:500;height:5;width:1000"></a-box>
+		
 
-		<a-box id="rocks" width="10" depth="10" position="-4 1 -20" static-body material="opacity: 0"></a-box>
-		<a-box id="rocks" width="20" depth="5" position="14 1 -25" static-body material="opacity: 0"></a-box>
+		<a-box id="rocks" width="10" depth="10" position="-4 1 -20" static-body="sphereRadius:NaN" material="opacity:0" geometry=""></a-box>
+		<a-box id="rocks" width="20" depth="5" position="14 1 -25" static-body="sphereRadius:NaN" material="opacity:0" geometry=""></a-box>
 
 		<!-- Landscape -->
-		<a-cylinder 
-			id="landscape" 
-			position="10.74 2.5 6.02" 
-			rotation="0 -10.313240312354818 0" 
-			scale="13.1 5 13.1" 
-			visible="false" 
-			segments-radial="12"
-			static-body="shape: cylinder">
+		<a-cylinder id="landscape" position="10.74 2.5 6.02" rotation="0 -10.313 0" scale="13.1 5 13.1" visible="false" segments-radial="12" static-body="sphereRadius:NaN;shape:cylinder" material="" geometry="">
 		</a-cylinder>
-		<a-cylinder 
-			id="landscape" 
-			position="-9.89 2.5 8.881" 
-			rotation="0 15.699043586584558 0" 
-			scale="13.1 5 13.1" 
-			visible="false" 
-			segments-radial="12"
-	 		static-body="shape: cylinder">
+		<a-cylinder id="landscape" position="-9.89 2.5 8.881" rotation="0 15.699043586584558 0" scale="13.1 5 13.1" visible="false" segments-radial="12" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
 		</a-cylinder>
-		<a-cylinder 
-			id="landscape" 
-			position="-4.557 2.5 -9.305" 
-			rotation="0 12.662367272391194 0" 
-			scale="13.1 5 13.1" 
-			visible="false" 
-			segments-radial="16"
-	 		static-body="shape: cylinder">
+		<a-cylinder id="landscape" position="-4.557 2.5 -9.305" rotation="0 12.662367272391194 0" scale="13.1 5 13.1" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
 		</a-cylinder>
-		<a-box 
-			id="landscape" 
-			position="-4.748 2.5 21.11" 
-			scale="14.24 5 1" 
-	 		visible="false"
-			static-body>
+		<a-box id="landscape" position="-4.748 2.5 21.11" scale="14.24 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
 		</a-box>
-		<a-box 
-			id="landscape" 
-			position="9.056 2.5 19.137" 
-			rotation="0 16.157409822689214 0" 
-			scale="14.24 5 1"
-	 		visible="false"
-			static-body>
+		<a-box id="landscape" position="9.056 2.5 19.137" rotation="0 16.157409822689214 0" scale="14.24 5 1" visible="false" static-body="sphereRadius:NaN" material="">
 		</a-box>
-		<a-box 
-			id="landscape" 
-			position="23.147 2.5 -2.643" 
-			rotation="0 89.49600759943459 0" 
-			scale="21.145 5 1"
-	 		visible="false"
-			static-body>
+		<a-box id="landscape" position="23.147 2.5 -2.643" rotation="0 89.49600759943459 0" scale="21.145 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
 		</a-box>
-		<a-box 
-			id="landscape" 
-			position="19.272 2.5 -17.657" 
-			rotation="0 130.34789839226227 0" 
-			scale="12.604 5 1"
-	 		visible="false"
-			static-body>
+		<a-box id="landscape" position="19.272 2.5 -17.657" rotation="0 130.34789839226227 0" scale="12.604 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
 		</a-box>
-		<a-box 
-			id="landscape" 
-			position="5.316 2.5 -21.952" 
-			rotation="0 -178.07528272665988 0" 
-			scale="20.521 5 1"
-	 		visible="false"
-			static-body>
+		<a-box id="landscape" position="5.316 2.5 -21.952" rotation="0 -178.07528272665988 0" scale="20.521 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
 		</a-box>
-		<a-box 
-	 		id="landscape" 
-	 		position="-18.551 2.5 -9.897" 
-	 		rotation="0 -122.61296815799618 0" 
-			scale="13.215 5 1"
-	 		visible="false"
-			static-body>
+		<a-box id="landscape" position="-18.551 2.5 -9.897" rotation="0 -122.61296815799618 0" scale="13.215 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
 		</a-box>
-		<a-box 
- 			id="landscape" 
- 			position="-22.04 2.5 1.96" 
- 			rotation="0 -90.18355695359158 0" 
- 			scale="13.215 5 1"
-			visible="false"
-			static-body>
+		<a-box id="landscape" position="-22.04 2.5 1.96" rotation="0 -90.18355695359158 0" scale="13.215 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		</a-box><a-box id="landscape" position="-12.695 2.5 82.686" rotation="0 -90.18355695359158 0" scale="18.763 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-14.739 2.5 100.936" rotation="0 -102.1010790923127 0" scale="18.763 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-20.135 2.5 113.585" rotation="0 -139.57251889386853 0" scale="9.369 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-29.85 2.5 118.217" rotation="0 -164.09511252546775 0" scale="13.906 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-43.374 2.5 119.977" rotation="0 179.67956455302618 0" scale="15.61 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-52.526 2.5 113.682" rotation="0 106.16907943774154 0" scale="13.514 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-53.243 2.5 102.955" rotation="0 69.0414143132642 0" scale="8.907 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-49.016 2.5 96.164" rotation="0 46.52417296462285 0" scale="8.907 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-45.046 2.5 88.826" rotation="0 63.02535746439056 0" scale="13.144 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-37.137 2.5 77.265" rotation="0 48.586821027093805 0" scale="15.338 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-24.774 2.5 70.35" rotation="0 9.396507840145501 0" scale="15.338 5 1" visible="false" static-body="sphereRadius:NaN" material="">
+		</a-box><a-box id="landscape" position="-15.029 2.5 71.363" rotation="0 -45.7220320514397 0" scale="7.128 5 1" visible="false" static-body="sphereRadius:NaN" material="">
 		</a-box>
 
 		<!-- Rover / camera -->
 		
-		<a-box id="rover" dynamic-body position="0 2 40" rover-controls>
-			<a-entity id="camera" camera="far: 11000; user-height: 1.6" look-controls>
+		<a-box id="rover" dynamic-body="sphereRadius:NaN" position="0 0.9996250956499682 40" rover-controls="" material="" geometry="" quaternion="0 0 0 1" velocity="">
+			<a-entity id="camera" camera="far:11000;userHeight:1.6" look-controls="" position="0 1.6 0" rotation="-6.187944187412895 64.62963929075691 0" data-aframe-inspector-original-camera="">
 			</a-entity>
 		</a-box>
 
 		<!-- Light -->
-		<a-light type="ambient" intensity="0.5" color="#f2cd79"></a-light>
-		<a-light type="point" intensity="1" position="0 300 0"></a-light>
+		<a-light type="ambient" intensity="0.5" color="#f2cd79" light="color:#fbea8c" id="ambient"></a-light>
+		<a-light type="point" intensity="1" position="-800 2750 -5000" rotation="12.37588837482578 -32.65859432245692 -65.60366754247926" light="color:#ffe8bb;type:directional" id="directional"></a-light>
 
 	</a-scene>
-</body>
 
-</html>
+
+
+<a style="display: none;" href="blob:http://localhost/583957e5-0699-4b75-911a-0e38a022711e" download="localhost"></a><a style="display: none;" href="blob:http://localhost/6fb363c6-1cec-4da9-9332-c21702abed0a" download="localhost"></a><a style="display: none;" href="blob:http://localhost/639088a7-b96f-4ed4-8dc5-8579ae9c809f" download="localhost"></a></body></html>
