@@ -20,7 +20,8 @@ html {
     font-size: 5rem; }
   #headerContainer h2 {
     color: white;
-    font-size: 2rem; }
+    font-size: 2rem;
+    font-family: "Lato", sans-serif; }
 
 .col-12 {
   text-align: center; }
@@ -35,14 +36,26 @@ header {
   background: url("../images/headerbg.png") center center no-repeat;
   background-size: cover; }
 
-.sectionOne {
-  text-align: center;
-  color: white; }
+#sectionTwo {
+  background-color: #37474f; }
+  #sectionTwo .container {
+    border-style: solid;
+    border-color: blue; }
+  #sectionTwo h1 {
+    color: white;
+    font-size: 2rem;
+    font-family: "Lato", sans-serif; }
+  #sectionTwo .row {
+    border-style: solid;
+    border-color: green;
+    margin: 0 auto;
+    display: block; }
+  #sectionTwo .col-12 {
+    text-align: center;
+    border-style: solid;
+    border-color: red; }
 
-.sectionTwo {
-  background-color: blue; }
-
-.sectionThree {
+#sectionThree {
   background-color: yellow; }
 
 .sectionFour {
