@@ -11,8 +11,73 @@ socket.on('roverData', (data) => {
     roverHealth = data.health;
     roverBattery = data.battery;
 
+
+
     //console.log(roverHealth);
     //console.log(roverBattery);
+
+
+    //HP
+    hpText = document.getElementById("hpText").innerHTML = (Math.round(roverHealth).toString() + "%");
+
+    if (parseInt(roverHealth) > 0) {
+
+        document.getElementById("hpMeter").style.width = (roverHealth.toString() + "%");
+    }
+
+    //Rover
+    if (roverHealth >= 80) {
+        //console.log("över 90");
+        document.getElementById("roverImages").src = "assets/images/roverImage.png"
+
+    } else if (roverHealth < 80 && roverHealth >= 60) {
+        //console.log("Under 90");
+        document.getElementById("roverImages").src = "assets/images/roverImage_slightly_damaged.png"
+
+    } else if (roverHealth < 60 && roverHealth >= 40) {
+        document.getElementById("roverImages").src = "assets/images/roverImage_damaged.png"
+
+    } else if (roverHealth < 40 && roverHealth >= 20) {
+        document.getElementById("hpMeter").classList.add('bg-warning');
+
+        document.getElementById("hpMeter").classList.remove('bg-success');
+
+        document.getElementById("roverImages").src = "assets/images/roverImage_critical.png"
+
+    } else if (roverHealth === 0) {
+
+        document.getElementById("roverImages").src = "assets/images/roverImage_dead.png"
+    }
+
+
+    if (roverHealth <= 50 && roverHealth > 20) {
+        document.getElementById("hpMeter").classList.add('bg-warning');
+
+        document.getElementById("hpMeter").classList.remove('bg-success');
+    }
+    if (roverHealth <= 20) {
+        document.getElementById("hpMeter").classList.add('bg-danger');
+
+        document.getElementById("hpMeter").classList.remove('bg-warning');
+    }
+
+    //Battery
+
+
+    document.getElementById("batteryMeter").style.width = (roverBattery.toString() + "%");
+
+    var batteryText = document.getElementById("batteryText").innerHTML = (Math.round(roverBattery).toString() + "%");
+
+
+    if (roverBattery < 33) {
+        document.getElementById("batteryMeter").classList.add('bg-danger');
+
+    }
+
+    if (roverBattery === 0) {
+        clearInterval(batterFunction);
+    }
+
 });
 
 document.addEventListener('keydown', press)
@@ -22,58 +87,6 @@ function press(e) {
         up = true;
         document.getElementById("triangleUp").style.borderColor = "red";
         //console.log("up");
-
-
-        //to test hp
-        var currentHp = parseInt(document.getElementById("hpMeter").style.width);
-
-        if (parseInt(currentHp) > 0) {
-            var damageTaken = 10;
-            var newHp = (currentHp - damageTaken);
-
-            var hpText = document.getElementById("hpText").innerHTML = (newHp.toString() + "%");
-
-            //console.log("New hp = " + newHp + "%");
-
-            document.getElementById("hpMeter").style.width = (newHp.toString() + "%");
-        }
-
-        //Rover
-        if (newHp >= 80) {
-            //console.log("över 90");
-            document.getElementById("roverImages").src = "assets/images/roverImage.png"
-
-        } else if (newHp < 80 && newHp >= 60) {
-            //console.log("Under 90");
-            document.getElementById("roverImages").src = "assets/images/roverImage_slightly_damaged.png"
-
-        } else if (newHp < 60 && newHp >= 40) {
-            document.getElementById("roverImages").src = "assets/images/roverImage_damaged.png"
-
-        } else if (newHp < 40 && newHp >= 20) {
-            document.getElementById("hpMeter").classList.add('bg-warning');
-
-            document.getElementById("hpMeter").classList.remove('bg-success');
-
-            document.getElementById("roverImages").src = "assets/images/roverImage_critical.png"
-
-        } else if (newHp === 0) {
-
-            document.getElementById("roverImages").src = "assets/images/roverImage_dead.png"
-        }
-
-
-        if (newHp <= 50 && newHp > 20) {
-            document.getElementById("hpMeter").classList.add('bg-warning');
-
-            document.getElementById("hpMeter").classList.remove('bg-success');
-        }
-        if (newHp <= 20) {
-            document.getElementById("hpMeter").classList.add('bg-danger');
-
-            document.getElementById("hpMeter").classList.remove('bg-warning');
-        }
-
 
     }
 
@@ -115,82 +128,3 @@ function release(e) {
         left = false;
     }
 }
-
-//Health & Rover
-function healthBar() {
-    var currentHp = parseInt(document.getElementById("hpMeter").style.width);
-
-    var damageTaken = 10;
-    var newHp = (currentHp - damageTaken);
-
-    var hpText = document.getElementById("hpText").innerHTML = (newHp.toString() + "%");
-
-    //console.log("New hp = " + newHp + "%");
-
-    document.getElementById("hpMeter").style.width = (newHp.toString() + "%");
-
-
-    //Rover
-    if (newHp >= 80) {
-        //console.log("över 90");
-        document.getElementById("roverImages").src = "assets/images/roverImage.png"
-
-    } else if (newHp < 80 && newHp >= 60) {
-        //console.log("Under 90");
-        document.getElementById("roverImages").src = "assets/images/roverImage_slightly_damaged.png"
-
-    } else if (newHp < 60 && newHp >= 40) {
-        document.getElementById("roverImages").src = "assets/images/roverImage_damaged.png"
-
-    } else if (newHp < 40 && newHp >= 20) {
-        document.getElementById("hpMeter").classList.add('bg-warning');
-
-        document.getElementById("hpMeter").classList.remove('bg-success');
-
-        document.getElementById("roverImages").src = "assets/images/roverImage_critical.png"
-
-    } else if (newHp === 0) {
-
-        document.getElementById("roverImages").src = "assets/images/roverImage_dead.png"
-    }
-
-
-    if (newHp <= 50 && newHp > 20) {
-        document.getElementById("hpMeter").classList.add('bg-warning');
-
-        document.getElementById("hpMeter").classList.remove('bg-success');
-    }
-    if (newHp <= 20) {
-        document.getElementById("hpMeter").classList.add('bg-danger');
-
-        document.getElementById("hpMeter").classList.remove('bg-warning');
-    }
-
-
-}
-
-
-//Battery
-
-var batterFunction = setInterval(function () {
-    var deltaTime = 1
-
-    var currentBattery = parseInt(document.getElementById("batteryMeter").style.width);
-
-    newBattery = (currentBattery - deltaTime);
-
-    currentBattery = document.getElementById("batteryMeter").style.width = (newBattery.toString() + "%");
-
-    var hpText = document.getElementById("batteryText").innerHTML = (newBattery.toString() + "%");
-
-
-    if (newBattery < 33) {
-        document.getElementById("batteryMeter").classList.add('bg-danger');
-
-    }
-
-    if (newBattery === 0) {
-        clearInterval(batterFunction);
-    }
-
-}, 1000);
