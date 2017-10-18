@@ -1,6 +1,15 @@
 //Controls
 var up, down, left, right;
 
+let roverHealth, roverBattery;
+
+const socket = io.connect('http://localhost');
+
+socket.on('roverData', (data) => {
+	roverHealth  = data.health;
+	roverBattery = data.battery;
+});
+
 document.addEventListener('keydown', press)
 
 function press(e) {

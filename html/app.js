@@ -75,6 +75,10 @@ io.on('connection', function (socket) {
 	socket.on('control', function (data) {
 		io.sockets.emit('update', data);
 	});
+
+	socket.on('roverData', (data) => {
+		io.sockets.emit('roverData', data);
+	});
 });
 
 if (isPi()) {
