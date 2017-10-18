@@ -3,7 +3,7 @@ let goForward = false,
 	turnLeft = false,
 	turnRight = false;
 
-let socket = io.connect('http://localhost');
+let socket = io.connect('http://172.20.10.14');
 
 socket.on('update', function (data) {
 	switch (data.direction) {
