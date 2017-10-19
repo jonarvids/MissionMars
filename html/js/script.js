@@ -49,16 +49,13 @@ AFRAME.registerComponent("rover-controls", {
 			ground.body.material = groundMaterial;
 
 			this.body.addEventListener("collide", function (e) {
-				/*
-				console.log(e.body.el);
-				if (e.body.el.id === "sand") {
-					console.log("SAND COLLISION");
-				} else if (e.body.el.id === "rocks") {
-					console.log("ROCKS COLLISION")
-				} else if (e.body.el.id === "ground") {
-					console.log("GROUND");
+
+				if (e.body.el.id === "landscape") {
+					console.log("COLLISION DETECTED WITH LANDSCAPE!");
+					roverHealth = roverHealth - 1;
+				} else {
+					console.log("COLLISION DETECTED! Body: ", e.body.el, " ID: ", e.body.el.id);
 				}
-				*/
 			});
 
 			let sand = document.querySelectorAll("#sand");
@@ -102,8 +99,8 @@ function release(e) {
 
 const localForward = new CANNON.Vec3(0, 0, -1);
 const localUp = new CANNON.Vec3(0, 1, 0);
-const linSpeed    = 0.1;   // [units] / [s]
-const angSpeed    = 0.1;   // [units] / [s]
+const linSpeed = 0.1;   // [units] / [s]
+const angSpeed = 0.1;   // [units] / [s]
 const maxLinSpeed = 2.65;  // [units] / [s]
 const maxAngSpeed = 0.70;  // [units] / [s]
 
@@ -154,7 +151,7 @@ function gameLoop() {
 	roverBody.angularDamping = 0.9999;
 
 	// Set initial health and battery drain factors
-	let healthDrain  = 0;    // [hp] / [s]
+	let healthDrain = 0;    // [hp] / [s]
 	let batteryDrain = 0.5;  // [bp] / [s]
 
 	// Check if the rover is in contact with different materials
@@ -178,12 +175,12 @@ function gameLoop() {
 	const angFactor = Math.floor(curAngSpeed / maxAngSpeed * 100) / 100;
 
 	// Drain health and battery
-	roverHealth  -= angFactor * healthDrain * dt / 1000;   // [hp]
+	roverHealth -= angFactor * healthDrain * dt / 1000;   // [hp]
 	roverBattery -= linFactor * batteryDrain * dt / 1000;  // [bp]
 	roverBattery -= 0.1 * dt / 1000;  // [bp]
 
 	// Makes sure health and battery levels don't go below 0
-	roverHealth  = Math.max(roverHealth, 0);
+	roverHealth = Math.max(roverHealth, 0);
 	roverBattery = Math.max(roverBattery, 0);
 
 	requestAnimationFrame(gameLoop)
@@ -191,9 +188,9 @@ function gameLoop() {
 
 window.setInterval(function () {
 	socket.emit(
-		'roverData', 
+		'roverData',
 		{
-			health: roverHealth, 
+			health: roverHealth,
 			battery: roverBattery
 		}
 	);
