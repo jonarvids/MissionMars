@@ -7,7 +7,6 @@
 	<!-- A-Frame -->
 	<script src="lib/aframe.min.js"></script>
 	<script src="lib/aframe-physics-system.min.js"></script>
-	<script src="lib/aframe-environment-component.min.js"></script>
 
 	<!-- socket.io -->
 	<script src="/socket.io/socket.io.js"></script> 
@@ -48,7 +47,7 @@
 		<!-- Ground -->
 		<a-entity
 			obj-model="obj: #landscapeObj; mtl: #landscapeMtl">
-			<a-box id="ground" width="100" depth="100" static-body material="opacity: 0">
+			<a-box id="ground" width="1000" depth="1000" static-body material="opacity: 0">
 			</a-box>
 		</a-entity>
 
