@@ -106,4 +106,13 @@ header {
 .aboutus {
   margin-top: 10%; }
 
+.video {
+  max-width: 100% !important;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 5%; }
+
+.iframe {
+  max-width: 100% !important; }
+
 /*# sourceMappingURL=styles.css.map */
