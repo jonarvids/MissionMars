@@ -1,0 +1,40 @@
+.gallery {
+    width: 640px;
+    margin: 0 auto;
+    padding: 5px;
+    background: #fff;
+}
+
+.gallery>div {
+    position: relative;
+    float: left;
+    padding: 5px;
+}
+
+.gallery>div>img {
+    display: block;
+    width: 200px;
+    transition: .1s transform;
+    transform: translateZ(0);
+    /* hack */
+}
+
+.gallery>div:hover {
+    z-index: 1;
+}
+
+.gallery>div:hover>img {
+    transform: scale(2.1, 2.1);
+    transition: .3s transform;
+}
+
+.cf:before,
+.cf:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.cf:after {
+    clear: both;
+}
