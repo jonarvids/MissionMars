@@ -74,6 +74,8 @@ header {
     color: black; }
   #sectionTwo a:hover {
     color: blue; }
+  #sectionTwo p {
+    text-align: left; }
 
 #sectionThree {
   background-color: #9E9E9E;
