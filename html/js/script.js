@@ -99,8 +99,8 @@ function release(e) {
 
 const localForward = new CANNON.Vec3(0, 0, -1);
 const localUp = new CANNON.Vec3(0, 1, 0);
-const linSpeed = 0.1;   // [units] / [s]
-const angSpeed = 0.1;   // [units] / [s]
+const linAcc = 5;   // [units] / [s]
+const angAcc = 5;   // [units] / [s]
 const maxLinSpeed = 2.65;  // [units] / [s]
 const maxAngSpeed = 0.70;  // [units] / [s]
 
@@ -120,8 +120,8 @@ function gameLoop() {
 	let roverBody = document.getElementById("rover").body;
 
 	// Compute world delta vectors for linear and angualar velocities
-	const localLinDelta = localForward.mult(linSpeed);
-	const localAngDelta = localUp.mult(angSpeed);
+	const localLinDelta = localForward.mult(linAcc * dt / 1000);
+	const localAngDelta = localUp.mult(angAcc * dt/ 1000);
 	const worldLinDelta = roverBody.quaternion.vmult(localLinDelta);
 	const worldAngDelta = roverBody.quaternion.vmult(localAngDelta);
 
