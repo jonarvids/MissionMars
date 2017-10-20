@@ -37,7 +37,7 @@ function Input(pin, name, debounce_delay = 10) {
 			if ((button_input == 0) != pressed) {
 				pressed = !parseInt(button_input);
 				io.sockets.emit(
-					'update',
+					'controls',
 					{ 
 						direction: name,
 						pressed: pressed
@@ -73,8 +73,8 @@ app.get('/mission-control', function(req, res) {
 });
 
 io.on('connection', function (socket) {
-	socket.on('control', function (data) {
-		io.sockets.emit('update', data);
+	socket.on('controls', function (data) {
+		io.sockets.emit('controls', data);
 	});
 
 	socket.on('roverData', (data) => {

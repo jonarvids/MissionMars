@@ -5,7 +5,7 @@ let goForward = false,
 
 let socket = io.connect(document.URL);
 
-socket.on('update', function (data) {
+socket.on('controls', function (data) {
 	switch (data.direction) {
 		case 'Up':
 			goForward = data.pressed;
@@ -104,6 +104,9 @@ const angAcc = 5;   // [units] / [s]
 const maxLinSpeed = 2.65;  // [units] / [s]
 const maxAngSpeed = 0.70;  // [units] / [s]
 
+let goalPosition = { x: 0, y: 0 };
+let roverPosition = { x: 0, y: 0 };
+let roverRotation = 0;
 let roverHealth = 100;  // [hp]
 let roverBattery = 100; // [bp]
 
@@ -116,33 +119,53 @@ function gameLoop() {
 	const dt = now - lastUpdate;  // [ms]
 	lastUpdate = now;
 
-	// Retrieve rover physics body
-	let roverBody = document.getElementById("rover").body;
+	// Retrieve physics bodies
+	const roverBody = document.getElementById("rover").body;
+	const goalBody  = document.getElementById("goal").body;	
+	
+	// Save goal position
+	goalPosition.x = goalBody.position.x;
+	goalPosition.y = goalBody.position.z;
 
 	// Compute world delta vectors for linear and angualar velocities
-	const localLinDelta = localForward.mult(linAcc * dt / 1000);
-	const localAngDelta = localUp.mult(angAcc * dt/ 1000);
-	const worldLinDelta = roverBody.quaternion.vmult(localLinDelta);
-	const worldAngDelta = roverBody.quaternion.vmult(localAngDelta);
+	const worldForward = roverBody.quaternion.vmult(localForward);
+	const worldUp      = roverBody.quaternion.vmult(localUp);
+	const linDelta     = worldForward.mult(linAcc * dt / 1000);
+	const angDelta     = worldUp.mult(angAcc * dt/ 1000);
+
+	// Save rover position
+	roverPosition.x = roverBody.position.x;
+	roverPosition.y = roverBody.position.z; 
+	
+	// Save rover rotation
+	if (worldForward.x == 0 && worldForward.z < 0) {
+		roverRotation = 0;
+	} else if (worldForward.x == 0) {
+		roverRotation = Math.PI;
+	} else if (worldForward.x < 0) {
+		roverRotation = Math.PI/2 + Math.atan(-worldForward.z/worldForward.x);
+	} else {
+		roverRotation = Math.PI*3/2 + Math.atan(-worldForward.z/worldForward.x);
+	}
 
 	// If the battery is not dead, update the rover's velocities
 	if (roverBattery > 0) {
 		if (goForward) {
-			roverBody.velocity.x += worldLinDelta.x;
-			roverBody.velocity.y += worldLinDelta.y;
-			roverBody.velocity.z += worldLinDelta.z;
+			roverBody.velocity.x += linDelta.x;
+			roverBody.velocity.y += linDelta.y;
+			roverBody.velocity.z += linDelta.z;
 		} else if (goBackwards) {
-			roverBody.velocity.x -= worldLinDelta.x;
-			roverBody.velocity.y -= worldLinDelta.y;
-			roverBody.velocity.z -= worldLinDelta.z;
+			roverBody.velocity.x -= linDelta.x;
+			roverBody.velocity.y -= linDelta.y;
+			roverBody.velocity.z -= linDelta.z;
 		} else if (turnLeft) {
-			roverBody.angularVelocity.x += worldAngDelta.x;
-			roverBody.angularVelocity.y += worldAngDelta.y;
-			roverBody.angularVelocity.z += worldAngDelta.z;
+			roverBody.angularVelocity.x += angDelta.x;
+			roverBody.angularVelocity.y += angDelta.y;
+			roverBody.angularVelocity.z += angDelta.z;
 		} else if (turnRight) {
-			roverBody.angularVelocity.x -= worldAngDelta.x;
-			roverBody.angularVelocity.y -= worldAngDelta.y;
-			roverBody.angularVelocity.z -= worldAngDelta.z;
+			roverBody.angularVelocity.x -= angDelta.x;
+			roverBody.angularVelocity.y -= angDelta.y;
+			roverBody.angularVelocity.z -= angDelta.z;
 		}
 	}
 
@@ -190,6 +213,9 @@ window.setInterval(function () {
 	socket.emit(
 		'roverData',
 		{
+			goalPosition: goalPosition,
+			position: roverPosition,
+			rotation: roverRotation,
 			health: roverHealth,
 			battery: roverBattery
 		}

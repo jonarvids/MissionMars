@@ -13,10 +13,24 @@ window.onload = () => {
 	const triangleDown  = document.getElementById("triangleDown");
 	const triangleLeft  = document.getElementById("triangleLeft");
 	const triangleRight = document.getElementById("triangleRight");
+	const grid          = document.getElementById('grid');
+	const content       = document.getElementById('content');
 	
 	const socket = io.connect('http://localhost');
 
-	socket.connect('http://localhost').on('roverData', (data) => {
+	// Radar
+	const ratioW = Math.ceil((grid.clientWidth+1) / 30);
+	const ratioH = Math.ceil((grid.clientHeight+1) / 30);
+	for (var i = 0; i < ratioH; i++) {
+		for (var p = 0; p < ratioW; p++) {
+			const cell = document.createElement('div');
+			cell.style.height = '29px';
+			cell.style.width = '29px';
+			grid.appendChild(cell);
+		}
+	}
+
+	socket.on('roverData', (data) => {
 		roverHealth = data.health;
 		roverBattery = data.battery;
 	
@@ -49,6 +63,42 @@ window.onload = () => {
 		if (roverBattery < 33) {
 			roverBattery.classList.add('bg-danger');
 		}
+
+		// Goal
+		const dx = data.goalPosition.x-data.position.x;
+		const dy = data.goalPosition.y-data.position.y;
+		const dist = Math.sqrt(dx*dx+dy*dy);
+		const maxDist = 112;
+
+		let goalPosition = {};
+		if (dist > maxDist) {
+			goalPosition.x = dx/dist*maxDist;
+			goalPosition.y = dy/dist*maxDist;
+		} else {
+			goalPosition.x = dx;
+			goalPosition.y = dy;
+		}
+		
+		const a = Math.cos(data.rotation);
+		const b = Math.sin(data.rotation);
+		const x = goalPosition.x;
+		const y = goalPosition.y;
+
+		goalPosition.x = x*a - y*b;
+		goalPosition.y = x*b + y*a;
+
+		if (content.lastChild.id === "goal") {
+			content.removeChild(content.lastChild);
+		}
+		const goal = document.createElement("div");
+		goal.id = "goal";
+		
+		goalPosition.x += Math.round((grid.clientWidth-25)/2);
+		goalPosition.y += Math.round((grid.clientHeight-25)/2);
+		goal.style.left = goalPosition.x.toString() + 'px';
+		goal.style.top  = goalPosition.y.toString() + 'px';
+		content.appendChild(goal);
+		console.log('dx: ' + dx + ', dy: ' + dy);
 	});
 	
 	document.addEventListener('keydown', (e) => {
@@ -57,21 +107,21 @@ window.onload = () => {
 				e.keyCode === 90 /* z */ ) {
 			triangleUp.style.borderColor = "red";
 			up = true;
-			socket.emit('control', { direction: 'Up', pressed: true });
+			socket.emit('controls', { direction: 'Up', pressed: true });
 		}
 		
 		if (e.keyCode === 39 /* right */ || 
 				e.keyCode === 68 /* d */ ) {
 			triangleRight.style.borderColor = "red";
 			right = true;
-			socket.emit('control', { direction: 'Right', pressed: true });
+			socket.emit('controls', { direction: 'Right', pressed: true });
 		}
 		
 		if (e.keyCode === 40 /* down */ || 
 				e.keyCode === 83 /* s */ ) {
 			triangleDown.style.borderColor = "red";
 			back = true;
-			socket.emit('control', { direction: 'Down', pressed: true });
+			socket.emit('controls', { direction: 'Down', pressed: true });
 		}
 	
 		if (e.keyCode === 37 /* left */ || 
@@ -79,7 +129,7 @@ window.onload = () => {
 				e.keyCode === 81 /* q */ ) {
 			triangleLeft.style.borderColor = "red";
 			left = true;
-			socket.emit('control', { direction: 'Left', pressed: true });
+			socket.emit('controls', { direction: 'Left', pressed: true });
 		}
 	});
 	
@@ -89,21 +139,21 @@ window.onload = () => {
 				e.keyCode === 90 /* z */ ) {
 			triangleUp.style.borderColor = "white";
 			up = false;
-			socket.emit('control', { direction: 'Up', pressed: false });
+			socket.emit('controls', { direction: 'Up', pressed: false });
 		}
 	
 		if (e.keyCode === 39 /* right */ ||
 				e.keyCode === 68 /* d */ ) {
 			triangleRight.style.borderColor = "white";
 			right = false;
-			socket.emit('control', { direction: 'Right', pressed: false });
+			socket.emit('controls', { direction: 'Right', pressed: false });
 		}
 	
 		if (e.keyCode === 40 /* down */ ||
 				e.keyCode === 83 /* s */ ) {
 			triangleDown.style.borderColor = "white";
 			down = false;
-			socket.emit('control', { direction: 'Down', pressed: false });
+			socket.emit('controls', { direction: 'Down', pressed: false });
 		}
 	
 		if (e.keyCode === 37 /* left */ || 
@@ -111,7 +161,7 @@ window.onload = () => {
 				e.keyCode === 81 /* q */ ) {
 			triangleLeft.style.borderColor = "white";
 			left = false;
-			socket.emit('control', { direction: 'Left', pressed: false });
+			socket.emit('controls', { direction: 'Left', pressed: false });
 		}
 	});
 }
