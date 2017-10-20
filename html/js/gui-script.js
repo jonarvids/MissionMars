@@ -32,6 +32,28 @@ window.onload = () => {
 		}
 
 		socket.on('roverData', (data) => {
+			// Rover
+			if (roverHealth >= 80 && data.health < 80) {
+				roverImages.src = "assets/images/roverImage.png";
+			} else if (roverHealth >= 60 && data.health < 60) {
+				roverImages.src = "assets/images/roverImage_slightly_damaged.png";
+			} else if (roverHealth >= 40 && data.health < 40) {
+				roverImages.src = "assets/images/roverImage_damaged.png";
+			} else if (roverHealth >= 20 && data.health < 20) {
+				hpMeter.classList.add('bg-warning');
+				hpMeter.classList.remove('bg-success');
+				roverImages.src = "assets/images/roverImage_critical.png";
+			} else if (roverHealth >= 10 && data.health < 10) {
+				hpMeter.classList.add('bg-danger');
+				hpMeter.classList.remove('bg-warning');
+			} else if (data.health == 0) {
+				roverImages.src = "assets/images/roverImage_dead.png";
+			}		
+
+			if (roverBattery < 33) {
+				roverBattery.classList.add('bg-danger');
+			}
+	
 			roverHealth = data.health;
 			roverBattery = data.battery;
 	
@@ -42,34 +64,12 @@ window.onload = () => {
 			// Battery
 			batteryText.innerHTML = Math.round(roverBattery).toString() + "%";
 			batteryMeter.style.width = roverBattery.toString() + "%";
-		
-			// Rover
-			if (roverHealth >= 80) {
-				roverImages.src = "assets/images/roverImage.png";
-			} else if (roverHealth >= 60) {
-				roverImages.src = "assets/images/roverImage_slightly_damaged.png";
-			} else if (roverHealth >= 40) {
-				roverImages.src = "assets/images/roverImage_damaged.png";
-			} else if (roverHealth >= 20) {
-				hpMeter.classList.add('bg-warning');
-				hpMeter.classList.remove('bg-success');
-				roverImages.src = "assets/images/roverImage_critical.png";
-			} else if (roverHealth > 0) {
-				hpMeter.classList.add('bg-danger');
-				hpMeter.classList.remove('bg-warning');
-			} else {
-				roverImages.src = "assets/images/roverImage_dead.png";
-			}
 			
-			if (roverBattery < 33) {
-				roverBattery.classList.add('bg-danger');
-			}
-	
 			// Goal
 			const dx = data.goalPosition.x-data.position.x;
 			const dy = data.goalPosition.y-data.position.y;
 			const dist = Math.sqrt(dx*dx+dy*dy);
-			const maxDist = 112;
+			const maxDist = 117;
 	
 			let goalPosition = {};
 			if (dist > maxDist) {
@@ -99,7 +99,6 @@ window.onload = () => {
 			goal.style.left = goalPosition.x.toString() + 'px';
 			goal.style.top  = goalPosition.y.toString() + 'px';
 			content.appendChild(goal);
-			console.log('dx: ' + dx + ', dy: ' + dy);
 		});
 
     document.addEventListener('keydown', (e) => {
