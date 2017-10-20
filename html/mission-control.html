@@ -13,45 +13,62 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
     <link rel='stylesheet' href="css/gui-styles.css">
+		
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 </head>
 
 <body>
     <div id="stars"></div>
-    <div id="title">
-        <!-- Byt titel? -->
-        <h1>Mars Kontrollcenter</h1>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <div class="bars">
-                <div id="hpBar">
-                    <div class="col-12">
-                        <h1>Hälsomätare</h1>
-                        <div class="progress">
-                            <div id="hpMeter" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                                <p id="hpText" class="progress-text">100%</p>
-                            </div>
-                        </div>
+    <div>
+        <!-- Large modal -->
+        <!-- <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
 
-                        <div id="battery">
-                            <h1>Batterimätare</h1>
+        <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <h1 id="winloseText">UPPDRAG AVKLARAT</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="allContainer">
+        <div id="title">
+            <!-- Byt titel? -->
+            <h1>Mars Kontrollcenter</h1>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="bars">
+                    <div id="hpBar">
+                        <div class="col-12">
+                            <h1>Hälsomätare</h1>
                             <div class="progress">
-                                <div id="batteryMeter" class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                    <p id="batteryText" class="progress-text">100%</p>
+                                <div id="hpMeter" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                    <p id="hpText" class="progress-text">100%</p>
+                                </div>
+                            </div>
+
+                            <div id="battery">
+                                <h1>Batterimätare</h1>
+                                <div class="progress">
+                                    <div id="batteryMeter" class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <p id="batteryText" class="progress-text">100%</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="roverContainer">
-                <div class="col-12">
-                    <div id="roverImg">
-                        <img id="roverImages" src="assets/images/roverImage.png" />
+                <div class="roverContainer">
+                    <div class="col-12">
+                        <div id="roverImg">
+                            <img id="roverImages" src="assets/images/roverImage.png" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <div class="col-6">
             <div id="miniMap">
@@ -64,30 +81,31 @@
 								</div>
             </div>
             <div id="controlls">
-                <h1>Kontrollsystem</h1>
-                <div class="row">
-                    <div class="col-12">
-                        <div id="triangleUp"></div>
+                    <h1>Kontrollsystem</h1>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="triangleUp"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div id="triangleLeft"></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div id="triangleLeft"></div>
+                        </div>
+                        <div class="col-6">
+                            <div id="triangleRight"></div>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <div id="triangleRight"></div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="triangleDown"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div id="triangleDown"></div>
-                    </div>
-                </div>
             </div>
-
         </div>
     </div>
 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="css/bootstrap/js/bootstrap.min.js"></script>
