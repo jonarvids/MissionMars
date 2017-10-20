@@ -42,7 +42,7 @@ window.onload = () => {
 		} else if (roverHealth > 0) {
 			hpMeter.classList.add('bg-danger');
 			hpMeter.classList.remove('bg-warning');
-		} else if (roverHealth === 0) {
+		} else {
 			roverImages.src = "assets/images/roverImage_dead.png";
 		}
 		
