@@ -123,8 +123,10 @@ window.onload = () => {
         distancePosition.x = 0;
         distancePosition.y = 35;
 
-        a = Math.cos(-distanceRotation);
-        b = Math.sin(-distanceRotation);
+        const p = 1 - 2*Math.max(30*Math.min(dist/maxDist, 0.7)-20, 0); 
+        const r = Math.PI*(1+Math.sin(p*Math.PI/2))/2;
+        a = Math.cos(-distanceRotation + r);
+        b = Math.sin(-distanceRotation + r);
         x = distancePosition.x;
         y = distancePosition.y;
 
