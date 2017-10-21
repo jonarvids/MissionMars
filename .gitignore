@@ -10,6 +10,9 @@ node_modules
 # Sass
 .sass-cache
 
+# neovim
+.nvimrc
+
 # Other
 *.log
 *.bak

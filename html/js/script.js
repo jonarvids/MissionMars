@@ -111,10 +111,11 @@ function release(e) {
 
 const localForward = new CANNON.Vec3(0, 0, -1);
 const localUp = new CANNON.Vec3(0, 1, 0);
-const linAcc = 5; // [units] / [s]
-const angAcc = 5; // [units] / [s]
-const maxLinSpeed = 2.65; // [units] / [s]
-const maxAngSpeed = 0.70; // [units] / [s]
+const linAcc = 5; // [length units] / [s]
+const angAcc = 5; // [length units] / [s]
+const maxLinSpeed = 2.65; // [length units] / [s]
+const maxAngSpeed = 0.70; // [length units] / [s]
+const batteryConstDrain = 0.1; // [bp] / 
 
 let goalPosition = {
     x: 0,
@@ -191,27 +192,32 @@ function gameLoop() {
     roverBody.angularDamping = 0.9999;
 
     // Set initial health and battery drain factors
-    let healthDrain = 0; // [hp] / [s]
-    let batteryDrain = 0.5; // [bp] / [s]
+    let healthLinDrain = 0; // [hp] / [s]
+    let healthAngDrain = 0; // [hp] / [s]
+    let batteryLinDrain = 0.25; // [bp] / [s]
+    let batteryAngDrain = 1; // [bp] / [s]
 
     // Check if the rover is in contact with different materials
     let contacts = document.querySelector("a-scene").systems.physics.driver.world.contacts;
     for (i = 0; i < contacts.length; i++) {
-        let contact1 = contacts[i].bj.el.id;
-        let contact = contacts[i].bi.el.id;
-        if (contact === "sand" || contact1 === "sand") {
-            batteryDrain = 3;
-            onSand = true;
-        } else if (contact === "rocks" || contact1 === 'rocks') {
-            healthDrain = 5;
-            onRocks = true;
-        } else {
-            onSand = false;
-            onRocks = false;
+      let idA = contacts[i].bi.el.id;
+      let idB = contacts[i].bj.el.id;
+
+      if (idA == "rover" || idB == "rover") { 
+        onSand  = idA == "sand" || idB == "sand";
+        onRocks = idA == "rocks" || idB == "rocks";
+          
+        if (onSand) {
+           batteryLinDrain = 1;
+           batteryAngDrain = 3;
+        } else if (onRocks) {
+           healthLinDrain = 3;
+           healthAngDrain = 5;
         }
+      }
     }
 
-    // Compute linear and angular speeds [units] / [s]
+    // Compute linear and angular speeds [length units] / [s]
     const curLinSpeed = roverBody.velocity.length();
     const curAngSpeed = roverBody.angularVelocity.length();
 
@@ -220,9 +226,11 @@ function gameLoop() {
     const angFactor = Math.floor(curAngSpeed / maxAngSpeed * 100) / 100;
 
     // Drain health and battery
-    roverHealth -= angFactor * healthDrain * dt / 1000; // [hp]
-    roverBattery -= linFactor * batteryDrain * dt / 1000; // [bp]
-    roverBattery -= 0.1 * dt / 1000; // [bp]
+    roverHealth  -= linFactor * healthLinDrain * dt / 1000; // [hp]
+    roverHealth  -= angFactor * healthAngDrain * dt / 1000; // [hp]
+    roverBattery -= linFactor * batteryLinDrain * dt / 1000; // [bp]
+    roverBattery -= angFactor * batteryAngDrain * dt / 1000; // [bp]
+    roverBattery -= batteryConstDrain * dt / 1000; // [bp]
 
     // Makes sure health and battery levels don't go below 0
     roverHealth = Math.max(roverHealth, 0);
@@ -245,4 +253,4 @@ window.setInterval(function () {
             onSand: onSand
         }
     );
-}, 1000);
+}, 50);
