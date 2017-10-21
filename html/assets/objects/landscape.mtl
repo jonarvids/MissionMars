@@ -1,5 +1,5 @@
 # Blender MTL File: 'landscape.blend'
-# Material Count: 2
+# Material Count: 3
 
 newmtl Ground
 Ns 0.000000
@@ -12,10 +12,21 @@ d 1.000000
 illum 1
 map_Kd ../textures/sand.jpg
 
+newmtl Rocks
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.310791 0.300454 0.264221
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd ../textures/sand.jpg
+
 newmtl Sand
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
-Kd 1.000000 1.000000 1.000000
+Kd 1.000000 0.966738 0.850156
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
