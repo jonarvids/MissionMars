@@ -12,20 +12,22 @@ let onSand = false,
 let socket = io.connect(document.URL);
 
 socket.on('controls', function (data) {
-    switch (data.direction) {
-        case 'Up':
-            goForward = data.pressed;
-            break;
-        case 'Down':
-            goBackwards = data.pressed;
-            break;
-        case 'Left':
-            turnLeft = data.pressed;
-            break;
-        case 'Right':
-            turnRight = data.pressed;
-            break;
-    }
+    window.setTimeout(() => {
+        switch (data.direction) {
+            case 'Up':
+                goForward = data.pressed;
+                break;
+            case 'Down':
+                goBackwards = data.pressed;
+                break;
+            case 'Left':
+                turnLeft = data.pressed;
+                break;
+            case 'Right':
+                turnRight = data.pressed;
+                break;
+        }
+    }, 3000);
 });
 
 AFRAME.registerComponent("rover-controls", {
@@ -57,14 +59,10 @@ AFRAME.registerComponent("rover-controls", {
             this.body.addEventListener("collide", function (e) {
 
                 if (e.body.el.id === "landscape") {
-                    console.log("COLLISION DETECTED WITH LANDSCAPE!");
                     roverHealth = roverHealth - 1;
                 } else if (e.body.el.id === "goal") {
                     roverMovement = false;
                     missionComplete = true;
-                } else {
-                    console.log("COLLISION DETECTED! Body: ", e.body.el, " ID: ", e.body.el.id);
-
                 }
             });
 
@@ -240,7 +238,6 @@ function gameLoop() {
 }
 
 window.setInterval(function () {
-    console.log(roverHealth);
     socket.emit(
         'roverData', {
             goalPosition: goalPosition,
