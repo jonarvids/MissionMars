@@ -6,6 +6,9 @@ let goForward = false,
 let roverMovement = true;
 let missionComplete = false;
 
+let onSand = false,
+    onRocks = false;
+
 let socket = io.connect(document.URL);
 
 socket.on('controls', function (data) {
@@ -61,6 +64,7 @@ AFRAME.registerComponent("rover-controls", {
                     missionComplete = true;
                 } else {
                     console.log("COLLISION DETECTED! Body: ", e.body.el, " ID: ", e.body.el.id);
+
                 }
             });
 
@@ -193,12 +197,17 @@ function gameLoop() {
     // Check if the rover is in contact with different materials
     let contacts = document.querySelector("a-scene").systems.physics.driver.world.contacts;
     for (i = 0; i < contacts.length; i++) {
+        let contact1 = contacts[i].bj.el.id;
         let contact = contacts[i].bi.el.id;
-        if (contact === "sand") {
+        if (contact === "sand" || contact1 === "sand") {
             batteryDrain = 3;
-        }
-        if (contact === "rocks") {
+            onSand = true;
+        } else if (contact === "rocks" || contact1 === 'rocks') {
             healthDrain = 5;
+            onRocks = true;
+        } else {
+            onSand = false;
+            onRocks = false;
         }
     }
 
@@ -223,6 +232,7 @@ function gameLoop() {
 }
 
 window.setInterval(function () {
+    console.log(roverHealth);
     socket.emit(
         'roverData', {
             goalPosition: goalPosition,
@@ -230,7 +240,9 @@ window.setInterval(function () {
             rotation: roverRotation,
             health: roverHealth,
             battery: roverBattery,
-            missionComplete: missionComplete
+            missionComplete: missionComplete,
+            onRocks: onRocks,
+            onSand: onSand
         }
     );
-}, 50);
+}, 1000);

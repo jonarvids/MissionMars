@@ -1,7 +1,7 @@
 window.onload = () => {
     // Controls
     let up, down, left, right;
-    let roverHealth, roverBattery, missionComplete;
+    let roverHealth, roverBattery, missionComplete, onRocks, onSand;
 
     // Elements
     const hpText = document.getElementById("hpText");
@@ -16,6 +16,8 @@ window.onload = () => {
     const grid = document.getElementById('grid');
     const content = document.getElementById('content');
     const winloseText = document.getElementById("winloseText");
+    const statusTitle = document.getElementById('statusTitle');
+    const statusMsg = document.getElementById('statusMsg');
 
     const socket = io.connect('http://localhost');
 
@@ -57,6 +59,22 @@ window.onload = () => {
         roverHealth = data.health;
         roverBattery = data.battery;
         missionComplete = data.missionComplete;
+        onSand = data.onSand;
+        onRocks = data.onRocks;
+
+        //statusMessage
+        if (onRocks === true) {
+            statusTitle.innerHTML = "Varning: STENAR";
+            statusMsg.innerHTML = "Rovern tar extra skada";
+        } else if (onSand === true) {
+            statusTitle.innerHTML = "Varning: SAND"
+            statusMsg.innerHTML = "Batteriet sjunker snabbare";
+
+        } else {
+            statusTitle.innerHTML = "";
+            statusMsg.innerHTML = "";
+        }
+
 
         //win
         if (missionComplete === true) {
