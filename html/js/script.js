@@ -3,6 +3,8 @@ let goForward = false,
     turnLeft = false,
     turnRight = false;
 
+let roverMovement = true;
+let missionComplete = false;
 
 let socket = io.connect(document.URL);
 
@@ -54,6 +56,9 @@ AFRAME.registerComponent("rover-controls", {
                 if (e.body.el.id === "landscape") {
                     console.log("COLLISION DETECTED WITH LANDSCAPE!");
                     roverHealth = roverHealth - 1;
+                } else if (e.body.el.id === "goal") {
+                    roverMovement = false;
+                    missionComplete = true;
                 } else {
                     console.log("COLLISION DETECTED! Body: ", e.body.el, " ID: ", e.body.el.id);
                 }
@@ -102,124 +107,130 @@ function release(e) {
 
 const localForward = new CANNON.Vec3(0, 0, -1);
 const localUp = new CANNON.Vec3(0, 1, 0);
-const linAcc = 5;   // [units] / [s]
-const angAcc = 5;   // [units] / [s]
-const maxLinSpeed = 2.65;  // [units] / [s]
-const maxAngSpeed = 0.70;  // [units] / [s]
+const linAcc = 5; // [units] / [s]
+const angAcc = 5; // [units] / [s]
+const maxLinSpeed = 2.65; // [units] / [s]
+const maxAngSpeed = 0.70; // [units] / [s]
 
-let goalPosition = { x: 0, y: 0 };
-let roverPosition = { x: 0, y: 0 };
+let goalPosition = {
+    x: 0,
+    y: 0
+};
+let roverPosition = {
+    x: 0,
+    y: 0
+};
 let roverRotation = 0;
-let roverHealth  = 100;  // [hp]
-let roverBattery = 100;  // [bp]
+let roverHealth = 100; // [hp]
+let roverBattery = 100; // [bp]
 
 let lastUpdate = Date.now();
 
 function gameLoop() {
-	// Update delta time
-	const now = Date.now();
-	const dt = now - lastUpdate;  // [ms]
-	lastUpdate = now;
+    // Update delta time
+    const now = Date.now();
+    const dt = now - lastUpdate; // [ms]
+    lastUpdate = now;
 
-	// Retrieve physics bodies
-	const roverBody = document.getElementById("rover").body;
-	const goalBody  = document.getElementById("goal").body;	
-	
-	// Save goal position
-	goalPosition.x = goalBody.position.x;
-	goalPosition.y = goalBody.position.z;
+    // Retrieve physics bodies
+    const roverBody = document.getElementById("rover").body;
+    const goalBody = document.getElementById("goal").body;
 
-	// Compute world delta vectors for linear and angualar velocities
-	const worldForward = roverBody.quaternion.vmult(localForward);
-	const worldUp      = roverBody.quaternion.vmult(localUp);
-	const linDelta     = worldForward.mult(linAcc * dt / 1000);
-	const angDelta     = worldUp.mult(angAcc * dt/ 1000);
+    // Save goal position
+    goalPosition.x = goalBody.position.x;
+    goalPosition.y = goalBody.position.z;
 
-	// Save rover position
-	roverPosition.x = roverBody.position.x;
-	roverPosition.y = roverBody.position.z; 
-	
-	// Save rover rotation
-	if (worldForward.x == 0 && worldForward.z < 0) {
-		roverRotation = 0;
-	} else if (worldForward.x == 0) {
-		roverRotation = Math.PI;
-	} else if (worldForward.x < 0) {
-		roverRotation = Math.PI/2 + Math.atan(-worldForward.z/worldForward.x);
-	} else {
-		roverRotation = Math.PI*3/2 + Math.atan(-worldForward.z/worldForward.x);
-	}
+    // Compute world delta vectors for linear and angualar velocities
+    const worldForward = roverBody.quaternion.vmult(localForward);
+    const worldUp = roverBody.quaternion.vmult(localUp);
+    const linDelta = worldForward.mult(linAcc * dt / 1000);
+    const angDelta = worldUp.mult(angAcc * dt / 1000);
 
-	// If the battery is not dead, update the rover's velocities
-	if (roverBattery > 0) {
-		if (goForward) {
-			roverBody.velocity.x += linDelta.x;
-			roverBody.velocity.y += linDelta.y;
-			roverBody.velocity.z += linDelta.z;
-		} else if (goBackwards) {
-			roverBody.velocity.x -= linDelta.x;
-			roverBody.velocity.y -= linDelta.y;
-			roverBody.velocity.z -= linDelta.z;
-		} else if (turnLeft) {
-			roverBody.angularVelocity.x += angDelta.x;
-			roverBody.angularVelocity.y += angDelta.y;
-			roverBody.angularVelocity.z += angDelta.z;
-		} else if (turnRight) {
-			roverBody.angularVelocity.x -= angDelta.x;
-			roverBody.angularVelocity.y -= angDelta.y;
-			roverBody.angularVelocity.z -= angDelta.z;
-		}
-	}
+    // Save rover position
+    roverPosition.x = roverBody.position.x;
+    roverPosition.y = roverBody.position.z;
 
-	// TODO: move to initialization
-	roverBody.linearDamping = 0.9;
-	roverBody.angularDamping = 0.9999;
+    // Save rover rotation
+    if (worldForward.x == 0 && worldForward.z < 0) {
+        roverRotation = 0;
+    } else if (worldForward.x == 0) {
+        roverRotation = Math.PI;
+    } else if (worldForward.x < 0) {
+        roverRotation = Math.PI / 2 + Math.atan(-worldForward.z / worldForward.x);
+    } else {
+        roverRotation = Math.PI * 3 / 2 + Math.atan(-worldForward.z / worldForward.x);
+    }
 
-	// Set initial health and battery drain factors
-	let healthDrain = 0;    // [hp] / [s]
-	let batteryDrain = 0.5;  // [bp] / [s]
+    // If the battery is not dead, update the rover's velocities
+    if (roverBattery > 0 && roverHealth > 0 && roverMovement === true) {
+        if (goForward) {
+            roverBody.velocity.x += linDelta.x;
+            roverBody.velocity.y += linDelta.y;
+            roverBody.velocity.z += linDelta.z;
+        } else if (goBackwards) {
+            roverBody.velocity.x -= linDelta.x;
+            roverBody.velocity.y -= linDelta.y;
+            roverBody.velocity.z -= linDelta.z;
+        } else if (turnLeft) {
+            roverBody.angularVelocity.x += angDelta.x;
+            roverBody.angularVelocity.y += angDelta.y;
+            roverBody.angularVelocity.z += angDelta.z;
+        } else if (turnRight) {
+            roverBody.angularVelocity.x -= angDelta.x;
+            roverBody.angularVelocity.y -= angDelta.y;
+            roverBody.angularVelocity.z -= angDelta.z;
+        }
+    }
 
-	// Check if the rover is in contact with different materials
-	let contacts = document.querySelector("a-scene").systems.physics.driver.world.contacts;
-	for (i = 0; i < contacts.length; i++) {
-		let contact = contacts[i].bi.el.id;
-		if (contact === "sand") {
-			batteryDrain = 3;
-		}
-		if (contact === "rocks") {
-			healthDrain = 5;
-		}
-	}
+    // TODO: move to initialization
+    roverBody.linearDamping = 0.9;
+    roverBody.angularDamping = 0.9999;
 
-	// Compute linear and angular speeds [units] / [s]
-	const curLinSpeed = roverBody.velocity.length();
-	const curAngSpeed = roverBody.angularVelocity.length();
+    // Set initial health and battery drain factors
+    let healthDrain = 0; // [hp] / [s]
+    let batteryDrain = 0.5; // [bp] / [s]
 
-	// Compute normalized factors [constant]
-	const linFactor = Math.floor(curLinSpeed / maxLinSpeed * 100) / 100;
-	const angFactor = Math.floor(curAngSpeed / maxAngSpeed * 100) / 100;
+    // Check if the rover is in contact with different materials
+    let contacts = document.querySelector("a-scene").systems.physics.driver.world.contacts;
+    for (i = 0; i < contacts.length; i++) {
+        let contact = contacts[i].bi.el.id;
+        if (contact === "sand") {
+            batteryDrain = 3;
+        }
+        if (contact === "rocks") {
+            healthDrain = 5;
+        }
+    }
 
-	// Drain health and battery
-	roverHealth -= angFactor * healthDrain * dt / 1000;   // [hp]
-	roverBattery -= linFactor * batteryDrain * dt / 1000;  // [bp]
-	roverBattery -= 0.1 * dt / 1000;  // [bp]
+    // Compute linear and angular speeds [units] / [s]
+    const curLinSpeed = roverBody.velocity.length();
+    const curAngSpeed = roverBody.angularVelocity.length();
 
-	// Makes sure health and battery levels don't go below 0
-	roverHealth = Math.max(roverHealth, 0);
-	roverBattery = Math.max(roverBattery, 0);
+    // Compute normalized factors [constant]
+    const linFactor = Math.floor(curLinSpeed / maxLinSpeed * 100) / 100;
+    const angFactor = Math.floor(curAngSpeed / maxAngSpeed * 100) / 100;
 
-	requestAnimationFrame(gameLoop)
+    // Drain health and battery
+    roverHealth -= angFactor * healthDrain * dt / 1000; // [hp]
+    roverBattery -= linFactor * batteryDrain * dt / 1000; // [bp]
+    roverBattery -= 0.1 * dt / 1000; // [bp]
+
+    // Makes sure health and battery levels don't go below 0
+    roverHealth = Math.max(roverHealth, 0);
+    roverBattery = Math.max(roverBattery, 0);
+
+    requestAnimationFrame(gameLoop)
 }
 
 window.setInterval(function () {
-	socket.emit(
-		'roverData',
-		{
-			goalPosition: goalPosition,
-			position: roverPosition,
-			rotation: roverRotation,
-			health: roverHealth,
-			battery: roverBattery
-		}
-	);
+    socket.emit(
+        'roverData', {
+            goalPosition: goalPosition,
+            position: roverPosition,
+            rotation: roverRotation,
+            health: roverHealth,
+            battery: roverBattery,
+            missionComplete: missionComplete
+        }
+    );
 }, 50);
