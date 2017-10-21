@@ -120,48 +120,30 @@ html, body
     
     
 #miniMap
+  margin-bottom: 10px
   height: 50%
   text-align: center
   h1
     color: white
     font-family: 'Share Tech Mono', monospace
   #map
-    width: 250px
-    height: 250px
-    margin: auto
-    border-radius: 50%
-    border: 8px solid #dddddd
     #content
       position: relative
       height: 100%
-      background-color: #333333
-      clip-path: circle(117px at center)
-      #grid
-        height: 100%
-        border: 1px solid #ccc
-        border-width: 1px 0 0 1px
-        div
-          margin: auto
-          border: 1px solid #ccc
-          border-width: 0 1px 1px 0
-          float: left
-      #rover
-        position: absolute
-        margin: 0
-        width: 35px
-        height: 35px
-        top: 50%
-        left: 50%
-        transform: translate(-50%, -50%)
-        border-radius: 50%
-        background-color: hsl(240, 70%, 70%)
       #goal
         position: absolute
         width: 25px
         height: 25px
         border-radius: 50%
         background-color: hsl(120, 70%, 70%)
-    
+      #distance
+        position: absolute
+        width: 50px
+        text-align: center
+        line-height: 90%
+        color: white
+        font-family: 'Share Tech Mono', monospace
+
 #controlls
   height: 50%
   text-align: center

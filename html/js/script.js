@@ -76,6 +76,8 @@ AFRAME.registerComponent("rover-controls", {
                 rocks[i].body.collisionResponse = false;
             }
 
+            document.getElementById('goal').body.collisionResponse = false;
+
             requestAnimationFrame(gameLoop)
         });
     },
@@ -165,7 +167,7 @@ function gameLoop() {
     }
 
     // If the battery is not dead, update the rover's velocities
-    if (roverBattery > 0 && roverHealth > 0 && roverMovement === true) {
+    if (roverBattery > 0 && roverHealth > 0 && roverMovement) {
         if (goForward) {
             roverBody.velocity.x += linDelta.x;
             roverBody.velocity.y += linDelta.y;

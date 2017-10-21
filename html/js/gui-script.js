@@ -13,25 +13,13 @@ window.onload = () => {
     const triangleDown = document.getElementById("triangleDown");
     const triangleLeft = document.getElementById("triangleLeft");
     const triangleRight = document.getElementById("triangleRight");
-    const grid = document.getElementById('grid');
     const content = document.getElementById('content');
+    const radar = document.getElementById('radar');
     const winloseText = document.getElementById("winloseText");
     const statusTitle = document.getElementById('statusTitle');
     const statusMsg = document.getElementById('statusMsg');
 
     const socket = io.connect('http://localhost');
-
-    // Radar
-    const ratioW = Math.ceil((grid.clientWidth + 1) / 30);
-    const ratioH = Math.ceil((grid.clientHeight + 1) / 30);
-    for (var i = 0; i < ratioH; i++) {
-        for (var p = 0; p < ratioW; p++) {
-            const cell = document.createElement('div');
-            cell.style.height = '29px';
-            cell.style.width = '29px';
-            grid.appendChild(cell);
-        }
-    }
 
     socket.on('roverData', (data) => {
         // Rover
@@ -112,25 +100,60 @@ window.onload = () => {
             goalPosition.y = dy;
         }
 
-        const a = Math.cos(data.rotation);
-        const b = Math.sin(data.rotation);
-        const x = goalPosition.x;
-        const y = goalPosition.y;
+        let a = Math.cos(data.rotation);
+        let b = Math.sin(data.rotation);
+        let x = goalPosition.x;
+        let y = goalPosition.y;
 
         goalPosition.x = x * a - y * b;
         goalPosition.y = x * b + y * a;
 
-        if (content.lastChild.id === "goal") {
+        let distanceRotation;
+        if (goalPosition.x == 0 && goalPosition.y < 0) {
+            distanceRotation = 0;
+        } else if (goalPosition.x == 0) {
+            distanceRotation= Math.PI;
+        } else if (goalPosition.x < 0) {
+            distanceRotation = Math.PI / 2 + Math.atan(-goalPosition.y / goalPosition.x);
+        } else {
+            distanceRotation = Math.PI * 3 / 2 + Math.atan(-goalPosition.y / goalPosition.x);
+        }
+
+        let distancePosition = {};
+        distancePosition.x = 0;
+        distancePosition.y = 35;
+
+        a = Math.cos(-distanceRotation);
+        b = Math.sin(-distanceRotation);
+        x = distancePosition.x;
+        y = distancePosition.y;
+
+        distancePosition.x = x * a - y * b;
+        distancePosition.y = x * b + y * a;
+
+        while (content.lastChild.id !== "radar") {
             content.removeChild(content.lastChild);
         }
-        const goal = document.createElement("div");
-        goal.id = "goal";
 
-        goalPosition.x += Math.round((grid.clientWidth - 25) / 2);
-        goalPosition.y += Math.round((grid.clientHeight - 25) / 2);
+        const goal = document.createElement("div");
+        const distance = document.createElement("div")
+        goal.id = "goal";
+        distance.id = "distance";
+
+        const radarRect = radar.getBoundingClientRect(); 
+        const radarX = radarRect.left - content.getBoundingClientRect().left;
+        goalPosition.x += radarX + (radarRect.right - radarRect.left - 25) / 2;
+        goalPosition.y += (radar.clientHeight - 25) / 2;
         goal.style.left = goalPosition.x.toString() + 'px';
         goal.style.top = goalPosition.y.toString() + 'px';
         content.appendChild(goal);
+
+        distancePosition.x += goalPosition.x-12.5;
+        distancePosition.y += goalPosition.y;
+        distance.innerHTML = Math.round(dist-10) + " meter";
+        distance.style.left = distancePosition.x.toString() + 'px';
+        distance.style.top = distancePosition.y.toString() + 'px';
+        content.appendChild(distance);
     });
 
     document.addEventListener('keydown', (e) => {
