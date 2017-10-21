@@ -1,5 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-	<meta charset="utf-8" />
+<html>
+
+<head>
+	<meta charset="utf-8">
 	<title>Mission Mars</title>
 
 	<!-- A-Frame -->
@@ -13,20 +15,24 @@
 	<script src="js/script.js"></script>
 </head>
 
-<body class="a-body ">
-	<a-scene physics="debug: true; friction: 0.0; restitution: 0.0" track-collisions="" class="fullscreen" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui=""><canvas class="a-canvas" data-aframe-canvas="true" width="375" height="187"></canvas>
+<body>
+	<a-scene physics="debug: true; friction: 0.0; restitution: 0.0" track-collisions>
 
 		<!-- Asset managment system. -->
 		<a-assets>
 
 			<!-- Sky box -->
-			<img id="skyTexture" src="assets/textures/skybox.jpg" style="">
-			
+			<img id="skyTexture" src="assets/textures/skybox.jpg">
+			</img>
 
 			<!-- Landscape -->
-			<a-asset-item id="landscapeObj" src="assets/objects/landscape.obj">
+			<a-asset-item
+				id="landscapeObj"
+				src="assets/objects/landscape.obj">
 			</a-asset-item>
-			<a-asset-item id="landscapeMtl" src="assets/objects/landscape.mtl">
+			<a-asset-item
+				id="landscapeMtl"
+				src="assets/objects/landscape.mtl">
 			</a-asset-item>
 
 			<!-- Rover -->
@@ -35,163 +41,819 @@
 		</a-assets>
 
 		<!-- Sky -->
-		<a-sky src="#skyTexture" radius="10000" material="" geometry="">
+		<a-sky src="#skyTexture" radius="10000">
 		</a-sky>
 
 		<!-- Ground -->
-		<a-entity obj-model="mtl:assets/objects/landscape.mtl;obj:assets/objects/landscape.obj">
-			<a-box id="ground" width="1000" depth="1000" static-body="sphereRadius:NaN" material="opacity:0" geometry="">
+		<a-entity
+			obj-model="obj: #landscapeObj; mtl: #landscapeMtl">
+			<a-box id="ground" width="1000" depth="1000" static-body material="opacity: 0">
 			</a-box>
 		</a-entity>
 
 		<!-- Sand collision entities -->
-		<a-cylinder id="sand" position="29.306 2.5 -24.232" scale="23 5 23" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="-26.945 2.5 14.45" scale="2.018 5 2.181" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="62.906 2.5 57.908" scale="3.366 5 3.945" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="69.249 2.5 65.968" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="74.816 2.5 73.52" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="-10.841 2.5 141.513" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="-21.548 2.5 2.495" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="-20.107 2.5 12.058" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="-14.341 2.5 25.303" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="33.387 2.5 10.778" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="38.31 2.5 19.228" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="43.675 2.5 29.114" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="46.433 2.5 37.161" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="49.744 2.5 47.591" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="54.44 2.5 56.304" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="-5.875 2.5 31.992" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="1.077 2.5 37.492" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="-0.604 2.5 138.201" scale="7.802 5 9.073" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="2.926 2.5 128.899" scale="1.738 5.163 1.587" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="7.144 2.5 143.609" scale="1.738 5.163 1.587" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
-		</a-cylinder><a-cylinder id="rocks" position="11.861 2.5 130.058" scale="7.685 4.925 14.695" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder 
+			id="sand" 
+			position="29.306 2.5 -24.232" 
+			scale="23 5 23" 
+	 		visible="false"
+			segments-radial="16" 
+			static-body="shape: cylinder">
 		</a-cylinder>
-		<a-cylinder id="sand" position="13.387 2.5 -40.932" scale="42 5 42" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder 
+			id="sand" 
+			position="13.387 2.5 -40.932" 
+			scale="42 5 42" 
+	 		visible="false"
+			segments-radial="16" 
+			static-body="shape: cylinder">
 		</a-cylinder>
-		<a-cylinder id="sand" position="-22.628 2.5 -36.403" scale="32 5 32" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder 
+			id="sand"
+			position="-22.628 2.5 -36.403" 
+			scale="32 5 32" 
+	 		visible="false"
+			segments-radial="16" 
+			static-body="shape: cylinder">
 		</a-cylinder>
 		
-		<a-box id="rocks" width="10" depth="10" position="10.314 1 4.059" static-body="sphereRadius:NaN" material="opacity:0" scale="5.393 1 1" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="9.269 -2.242 24.575" static-body="sphereRadius:NaN" material="opacity:0" scale="6.326 1 2.449" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="17.415 -2.242 38.275" static-body="sphereRadius:NaN" material="opacity:0" scale="7.113 1.029 -0.464" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="22.497 -2.242 40.871" static-body="sphereRadius:NaN" material="opacity:0" scale="6.485 1.029 -0.464" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="23.826 -2.242 44.271" static-body="sphereRadius:NaN" material="opacity:0" scale="6.485 1.029 -0.464" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="21.208 -2.242 126.509" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 2.744" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="25.19 -2.242 123.967" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 2.744" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="28.962 -2.242 123.077" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 2.744" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="33.466 -2.242 121.892" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 2.744" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="7.847 -2.242 122.274" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 2.744" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="9.61 -2.242 92.902" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 2.744" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="7.468 -2.242 87.644" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 0.759" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="8.356 -2.242 84.15" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 0.759" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="10.307 -2.242 75.815" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 0.759" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="10.03 -2.242 66.389" static-body="sphereRadius:NaN" material="opacity:0" scale="0.665 1.029 0.759" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="29.073 -2.242 49.571" static-body="sphereRadius:NaN" material="opacity:0" scale="5.822 1.029 -0.464" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="31.851 -2.242 54.466" static-body="sphereRadius:NaN" material="opacity:0" scale="5.822 1.029 -0.464" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="38.63 -2.242 59.835" static-body="sphereRadius:NaN" material="opacity:0" scale="7.17 1.029 -0.464" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="41.017 -2.242 93.759" static-body="sphereRadius:NaN" material="opacity:0" scale="7.391 1.061 -7.799" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="82.198 -2.242 109.654" static-body="sphereRadius:NaN" material="opacity:0" scale="1.057 1.061 -3.605" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="49.658 -2.242 124.638" static-body="sphereRadius:NaN" material="opacity:0" scale="6.751 0.963 -1.158" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="39.136 -2.242 127.318" static-body="sphereRadius:NaN" material="opacity:0" scale="6.751 0.963 -1.158" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="28.689 -2.242 128.784" static-body="sphereRadius:NaN" material="opacity:0" scale="5.07 0.963 -1.152" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="79.509 -2.242 86.918" static-body="sphereRadius:NaN" material="opacity:0" scale="1.057 1.061 -2.626" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="-18.243 1 -0.088" static-body="sphereRadius:NaN" material="opacity:0" scale="2.118 1 1" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="-18.996 1 8.024" static-body="sphereRadius:NaN" material="opacity:0" scale="2.013 1 0.9" geometry=""></a-box><a-box id="rocks" width="10" depth="10" position="-18.306 1 15.366" static-body="sphereRadius:NaN" material="opacity:0" scale="1.505 1 2.731" geometry=""></a-box>
-		
+		<a-box id="rocks" width="10" depth="10" position="-4 1 -20" static-body material="opacity: 0"></a-box>
+		<a-box id="rocks" width="20" depth="5" position="14 1 -25" static-body material="opacity: 0"></a-box>
+
+        <!-- Rocks -->
+        <a-cylinder 
+            id="rocks" 
+            position="-26.945 2.5 14.45" 
+            scale="2.018 5 2.181" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="62.906 2.5 57.908" 
+            scale="3.366 5 3.945" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="69.249 2.5 65.968" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="74.816 2.5 73.52" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="-10.841 2.5 141.513" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="-21.548 2.5 2.495" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="-20.107 2.5 12.058" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="-14.341 2.5 25.303" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="33.387 2.5 10.778" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="38.31 2.5 19.228" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="43.675 2.5 29.114" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="46.433 2.5 37.161" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="49.744 2.5 47.591" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="54.44 2.5 56.304" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="-5.875 2.5 31.992" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="1.077 2.5 37.492" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="-0.604 2.5 138.201" 
+            scale="7.802 5 9.073" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="2.926 2.5 128.899" 
+            scale="1.738 5.163 1.587" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="7.144 2.5 143.609" 
+            scale="1.738 5.163 1.587" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+        <a-cylinder 
+            id="rocks" 
+            position="11.861 2.5 130.058" 
+            scale="7.685 4.925 14.695" 
+            visible="false" 
+            segments-radial="16" 
+            static-body="shape:cylinder">
+		</a-cylinder>
+		<a-box 
+            id="rocks" 
+            position="10.314 2.5 4.059" 
+            scale="53.93 5 1"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="9.269 2.5 24.575" 
+            scale="63.26 5 24.49"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="17.415 2.5 38.275" 
+            scale="71.13 5 -4.64"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="22.497 2.5 40.871" 
+            scale="64.85 5 -4.64"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="23.826 2.5 44.271" 
+            scale="64.85 5 -4.64"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="21.208 2.5 126.509" 
+            scale="6.65 5 27.44"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="25.19 2.5 123.967" 
+            scale="6.65 5 27.44"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="28.962 2.5 123.077" 
+            scale="6.65 5 27.44"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="33.466 2.5 121.892" 
+            scale="6.65 5 27.44"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="7.847 2.5 122.274" 
+            scale="6.65 5 27.44"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="9.61 2.5 92.902" 
+            scale="6.65 5 27.44"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="7.468 2.5 87.644" 
+            scale="6.65 5 7.59"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="8.356 2.5 84.15" 
+            scale="6.65 5 7.59"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="10.307 2.5 75.815" 
+            scale="6.65 5 7.59"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="10.03 2.5 66.389" 
+            scale="6.65 5 7.59"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="29.073 2.5 49.571" 
+            scale="58.22 5 -4.64"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="31.851 2.5 54.466" 
+            scale="58.22 5 -4.64"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="38.63 2.5 59.835" 
+            scale="71.7 5 -4.64"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="41.017 2.5 93.759" 
+            scale="73.91 5 -77.99"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="82.198 2.5 109.654" 
+            scale="10.57 5 -36.05"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="49.658 2.5 124.638" 
+            scale="67.51 5 -11.58"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="39.136 2.5 127.318" 
+            scale="67.51 5 -11.58"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="28.689 2.5 128.784" 
+            scale="50.7 5 -11.52"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="79.509 2.5 86.918" 
+            scale="10.57 5 -26.26"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="-18.243 2.5 -0.088" 
+            scale="21.18 5 10"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="-18.996 2.5 8.024" 
+            scale="20.13 5 9.0"
+            visible="false"
+            static-body>
+        </a-box>
+        <a-box 
+            id="rocks" 
+            position="-18.306 2.5 15.366" 
+            scale="15.05 5 27.31"
+            visible="false"
+            static-body>
+        </a-box>
 
 		<!-- Landscape collision entities -->
-		<a-cylinder id="landscape" position="10.74 2.5 6.02" rotation="0 -10.313240312354818 0" scale="13.1 5 13.1" visible="false" segments-radial="12" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+        <a-cylinder 
+			id="landscape" 
+			position="10.74 2.5 6.02" 
+			rotation="0 -10.313240312354818 0" 
+			scale="13.1 5 13.1" 
+			visible="false" 
+			segments-radial="12"
+			static-body="shape: cylinder">
 		</a-cylinder>
-		<a-cylinder id="landscape" position="-9.89 2.5 8.881" rotation="0 15.699043586584558 0" scale="13.1 5 13.1" visible="false" segments-radial="12" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder 
+			id="landscape" 
+			position="-9.89 2.5 8.881" 
+			rotation="0 15.699043586584558 0" 
+			scale="13.1 5 13.1" 
+			visible="false" 
+			segments-radial="12"
+	 		static-body="shape: cylinder">
 		</a-cylinder>
-		<a-cylinder id="landscape" position="-4.557 2.5 -9.305" rotation="0 12.662367272391194 0" scale="13.1 5 13.1" visible="false" segments-radial="16" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder 
+			id="landscape" 
+			position="-4.557 2.5 -9.305" 
+			rotation="0 12.662367272391194 0" 
+			scale="13.1 5 13.1" 
+			visible="false" 
+			segments-radial="16"
+	 		static-body="shape: cylinder">
 		</a-cylinder>
-		<a-box id="landscape" position="-4.748 2.5 21.11" scale="14.24 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-4.748 2.5 21.11" 
+			scale="14.24 5 1" 
+	 		visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="9.056 2.5 19.137" rotation="0 16.157409822689214 0" scale="14.24 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="9.056 2.5 19.137" 
+			rotation="0 16.157409822689214 0" 
+			scale="14.24 5 1"
+	 		visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="23.147 2.5 -2.643" rotation="0 89.49600759943459 0" scale="21.145 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="23.147 2.5 -2.643" 
+			rotation="0 89.49600759943459 0" 
+			scale="21.145 5 1"
+	 		visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="19.272 2.5 -17.657" rotation="0 130.34789839226227 0" scale="12.604 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="19.272 2.5 -17.657" 
+			rotation="0 130.34789839226227 0" 
+			scale="12.604 5 1"
+	 		visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="5.316 2.5 -21.952" rotation="0 -178.07528272665988 0" scale="20.521 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="5.316 2.5 -21.952" 
+			rotation="0 -178.07528272665988 0" 
+			scale="20.521 5 1"
+	 		visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-18.551 2.5 -9.897" rotation="0 -122.61296815799618 0" scale="13.215 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+	 		id="landscape" 
+	 		position="-18.551 2.5 -9.897" 
+	 		rotation="0 -122.61296815799618 0" 
+			scale="13.215 5 1"
+	 		visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-22.04 2.5 1.96" rotation="0 -90.18355695359158 0" scale="13.215 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+ 			id="landscape" 
+ 			position="-22.04 2.5 1.96" 
+ 			rotation="0 -90.18355695359158 0" 
+ 			scale="13.215 5 1"
+			visible="false"
+			static-body>
 		</a-box>
 
-		<a-box id="landscape" position="-12.695 2.5 82.686" rotation="0 -90.18355695359158 0" scale="18.763 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-12.695 2.5 82.686" 
+			rotation="0 -90.18355695359158 0" 
+			scale="18.763 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-14.739 2.5 100.936" rotation="0 -102.1010790923127 0" scale="18.763 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-14.739 2.5 100.936" 
+			rotation="0 -102.1010790923127 0" 
+			scale="18.763 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-20.135 2.5 113.585" rotation="0 -139.57251889386853 0" scale="9.369 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-20.135 2.5 113.585" 
+			rotation="0 -139.57251889386853 0" 
+			scale="9.369 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-29.85 2.5 118.217" rotation="0 -164.09511252546775 0" scale="13.906 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-29.85 2.5 118.217" 
+			rotation="0 -164.09511252546775 0" 
+			scale="13.906 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-43.374 2.5 119.977" rotation="0 179.67956455302618 0" scale="15.61 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-43.374 2.5 119.977" 
+			rotation="0 179.67956455302618 0" 
+			scale="15.61 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-52.526 2.5 113.682" rotation="0 106.16907943774154 0" scale="13.514 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-52.526 2.5 113.682" 
+			rotation="0 106.16907943774154 0" 
+			scale="13.514 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-53.243 2.5 102.955" rotation="0 69.0414143132642 0" scale="8.907 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-53.243 2.5 102.955" 
+			rotation="0 69.0414143132642 0" 
+			scale="8.907 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-49.016 2.5 96.164" rotation="0 46.52417296462285 0" scale="8.907 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-49.016 2.5 96.164" 
+			rotation="0 46.52417296462285 0" 
+			scale="8.907 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-45.046 2.5 88.826" rotation="0 63.02535746439056 0" scale="13.144 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-45.046 2.5 88.826" 
+			rotation="0 63.02535746439056 0" 
+			scale="13.144 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-37.137 2.5 77.265" rotation="0 48.586821027093805 0" scale="15.338 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-37.137 2.5 77.265" 
+			rotation="0 48.586821027093805 0" 
+			scale="15.338 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-24.774 2.5 70.35" rotation="0 9.396507840145501 0" scale="15.338 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-24.774 2.5 70.35" 
+			rotation="0 9.396507840145501 0" 
+			scale="15.338 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-15.029 2.5 71.363" rotation="0 -45.7220320514397 0" scale="7.128 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-15.029 2.5 71.363" 
+			rotation="0 -45.7220320514397 0" 
+			scale="7.128 5 1" 
+			visible="false" 
+			static-body>
 		</a-box>
 
-		<a-cylinder id="landscape" position="-11.036 2.5 -80.86" rotation="0 -10.313 0" scale="10.384 3.963 10.384" visible="false" segments-radial="12" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder
+			id="landscape" 
+			position="-11.036 2.5 -80.86" 
+			rotation="0 -10.313 0" 
+			scale="10.384 3.963 10.384" 
+			visible="false"
+			segments-radial="12" 
+			static-body="shape: cylinder">
 		</a-cylinder>
-		<a-cylinder id="landscape" position="-16.949 2.5 -80.893" rotation="0 -10.313 0" scale="10.384 3.963 10.384" visible="false" segments-radial="12" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder
+			id="landscape" 
+			position="-16.949 2.5 -80.893" 
+			rotation="0 -10.313 0" 
+			scale="10.384 3.963 10.384" 
+			visible="false"
+			segments-radial="12" 
+			static-body="shape: cylinder">
 		</a-cylinder>
-		<a-cylinder id="landscape" position="-45.628 2.5 -49.257" rotation="0 -10.313 0" scale="13.1 5 13.1" visible="false" segments-radial="12" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder
+			id="landscape" 
+			position="-45.628 2.5 -49.257" 
+			rotation="0 -10.313 0" 
+			scale="13.1 5 13.1" 
+			visible="false"
+			segments-radial="12" 
+			static-body="shape: cylinder">
 		</a-cylinder>
-		<a-cylinder id="landscape" position="-54.122 2.5 -55.721" scale="4.999 5 4.999" visible="false" segments-radial="12" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder
+			id="landscape" 
+			position="-54.122 2.5 -55.721" 
+			rotation="" 
+			scale="4.999 5 4.999" 
+			visible="false"
+	 segments-radial="12" 
+	 static-body="shape: cylinder">
 		</a-cylinder>
-		<a-box id="landscape" position="-17.602 2.5 -61.752" rotation="0 44.576116461178046 0" scale="47.076 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-17.602 2.5 -61.752" 
+			rotation="0 44.576116461178046 0" 
+			scale="47.076 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-41.623 2.5 -70.06" rotation="0 51.394314223234844 0" scale="22.104 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-41.623 2.5 -70.06" 
+			rotation="0 51.394314223234844 0" 
+			scale="22.104 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-29.652 2.5 -83.133" rotation="0 40.90918657234078 0" scale="13.753 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-29.652 2.5 -83.133" 
+			rotation="0 40.90918657234078 0" 
+			scale="13.753 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
 
-		<a-box id="landscape" position="-73.001 2.5 -125.883" rotation="0 46.52417296462285 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-73.001 2.5 -125.883" 
+			rotation="0 46.52417296462285 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-46.656 2.5 -161.664" rotation="0 60.56163894532801 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-46.656 2.5 -161.664" 
+			rotation="0 60.56163894532801 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-29.87 2.5 -203.065" rotation="0 75.40124583921634 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-29.87 2.5 -203.065" 
+			rotation="0 75.40124583921634 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-24.778 2.5 -247.299" rotation="0 91.50135988239246 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-24.778 2.5 -247.299" 
+			rotation="0 91.50135988239246 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-28.593 2.5 -291.983" rotation="0 98.14767030591003 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-28.593 2.5 -291.983" 
+			rotation="0 98.14767030591003 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-43.039 2.5 -333.973" rotation="0 119.9200665208813 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+	 id="landscape" 
+	position="-43.039 2.5 -333.973" 
+ rotation="0 119.9200665208813 0" 
+ scale="45.198 5 1" 
+ visible="false"
+ static-body>
 		</a-box>
-		<a-box id="landscape" position="-66.428 2.5 -372.596" rotation="0 122.2118977014046 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-66.428 2.5 -372.596" 
+			rotation="0 122.2118977014046 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-95.163 2.5 -407.084" rotation="0 137.56716661091065 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-95.163 2.5 -407.084" 
+			rotation="0 137.56716661091065 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-131.729 2.5 -433.036" rotation="0 151.54733681210274 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-131.729 2.5 -433.036" 
+			rotation="0 151.54733681210274 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-173.881 2.5 -446.681" rotation="0 172.74677523194322 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-173.881 2.5 -446.681" 
+			rotation="0 172.74677523194322 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-106.678 2.5 -97.38" rotation="0 33.86180569223165 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-106.678 2.5 -97.38" 
+			rotation="0 33.86180569223165 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-145.379 2.5 -74.599" rotation="0 27.2154952687141 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-145.379 2.5 -74.599" 
+			rotation="0 27.2154952687141 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-186.844 2.5 -57.541" rotation="0 17.53250853100319 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-186.844 2.5 -57.541" 
+			rotation="0 17.53250853100319 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-230.634 2.5 -47.445" rotation="0 8.193296470370772 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-230.634 2.5 -47.445" 
+			rotation="0 8.193296470370772 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-275.568 2.5 -43.899" rotation="0 0.8594366926962348 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-275.568 2.5 -43.899" 
+			rotation="0 0.8594366926962348 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-320.176 2.5 -47.887" rotation="0 -11.000789666511807 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-320.176 2.5 -47.887" 
+			rotation="0 -11.000789666511807 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-362.883 2.5 -61.686" rotation="0 -24.809072529164645 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-362.883 2.5 -61.686" 
+			rotation="0 -24.809072529164645 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-400.641 2.5 -85.122" rotation="0 -38.78924273035673 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-400.641 2.5 -85.122" 
+			rotation="0 -38.78924273035673 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
-		<a-box id="landscape" position="-431.141 2.5 -117.777" rotation="0 -54.832060994019784 0" scale="45.198 5 1" visible="false" static-body="sphereRadius:NaN" material="" geometry="">
+		<a-box 
+			id="landscape" 
+			position="-431.141 2.5 -117.777" 
+			rotation="0 -54.832060994019784 0" 
+			scale="45.198 5 1" 
+			visible="false"
+			static-body>
 		</a-box>
 
 		<!-- Goal -->
-		<a-cylinder id="goal" position="93.91 2.5 -91.9" scale="30 5 30" visible="false" static-body="shape:cylinder;sphereRadius:NaN" material="" geometry="">
+		<a-cylinder
+	 		id="goal"
+			position="93.91 2.5 -91.9"
+	 		scale="30 5 30"
+			visible="false"
+			static-body="shape: cylinder">
 		</a-cylinder>
 
 		<!-- Rover / camera -->
-		<a-box id="rover" position="-87.4 0.9961322014519826 149.5" dynamic-body="sphereRadius:NaN" rover-controls="" material="" geometry="" quaternion="-9.12950952559524e-7 -7.851635367385899e-11 0.00001835766603008016 0.9999999998310813" velocity="">
-			<a-entity i="" d="camera" camera="far:11000;userHeight:1.6" look-controls="" position="0 3.2 0" data-aframe-inspector-original-camera="">
+		<a-box 
+			id="rover" 
+			position="-87.4 1 149.5" 
+	 		rotation="0 -30 0"
+			dynamic-body 
+			rover-controls>
+			<a-entity i
+				d="camera" 
+				camera="far: 11000; user-height: 1.6" 
+				look-controls>
 			</a-entity>
 		</a-box>
 
 		<!-- Light -->
-		<a-light type="ambient" intensity="0.5" color="#f2cd79" light=""></a-light>
-		<a-light type="point" intensity="1" position="0 300 0" light=""></a-light>
+		<a-light type="ambient" intensity="0.5" color="#f2cd79"></a-light>
+		<a-light type="point" intensity="1" position="0 300 0"></a-light>
 
 	</a-scene>
+</body>
 
-
-
-</body></html>
+</html>
