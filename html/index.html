@@ -36,7 +36,13 @@
 			</a-asset-item>
 
 			<!-- Rover -->
-			<a-asset-item id="roverObj" src="assets/mars_rover/scene.gltf">
+			<a-asset-item 
+                id="roverObj" 
+                src="assets/objects/rover.obj">
+			</a-asset-item>
+			<a-asset-item 
+                id="roverMtl" 
+                src="assets/objects/rover.mtl">
 			</a-asset-item>
 		</a-assets>
 
@@ -837,15 +843,20 @@
 		</a-cylinder>
 
 		<!-- Rover / camera -->
-		<a-box 
-			id="rover" 
-			position="-87.4 1 149.5" 
+        <a-box
+            id="rover"
+			position="-87.4 1.25 149.5" 
 	 		rotation="0 -30 0"
-			dynamic-body 
+			dynamic-body
 			rover-controls>
-			<a-entity i
-				d="camera" 
-				camera="far: 11000; user-height: 1.6" 
+		    <a-entity 
+                obj-model="obj: #roverObj; mtl: #roverMtl"
+                rotation="0 180 0">
+            </a-entity> 
+			<a-entity 
+                id="camera" 
+                camera
+                position="0.13 1.18 -0.56"
 				look-controls>
 			</a-entity>
 		</a-box>
