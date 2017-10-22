@@ -31,10 +31,23 @@
             <a-asset-item id="landscapeMtl" src="assets/objects/landscape.mtl">
             </a-asset-item>
 
+<<<<<<< HEAD
             <!-- Rover -->
             <a-asset-item id="roverObj" src="assets/mars_rover/scene.gltf">
             </a-asset-item>
         </a-assets>
+=======
+			<!-- Rover -->
+			<a-asset-item 
+                id="roverObj" 
+                src="assets/objects/rover.obj">
+			</a-asset-item>
+			<a-asset-item 
+                id="roverMtl" 
+                src="assets/objects/rover.mtl">
+			</a-asset-item>
+		</a-assets>
+>>>>>>> origin/master
 
         <!-- Sky -->
         <a-sky src="#skyTexture" radius="10000">
@@ -264,9 +277,30 @@
             </a-entity>
         </a-box>
 
+<<<<<<< HEAD
         <!-- Light -->
         <a-light type="ambient" intensity="0.5" color="#f2cd79"></a-light>
         <a-light type="point" intensity="1" position="0 300 0"></a-light>
+=======
+		<!-- Rover / camera -->
+        <a-box
+            id="rover"
+			position="-87.4 1.25 149.5" 
+	 		rotation="0 -30 0"
+			dynamic-body
+			rover-controls>
+		    <a-entity 
+                obj-model="obj: #roverObj; mtl: #roverMtl"
+                rotation="0 180 0">
+            </a-entity> 
+			<a-entity 
+                id="camera" 
+                camera
+                position="0.13 1.18 -0.56"
+				look-controls>
+			</a-entity>
+		</a-box>
+>>>>>>> origin/master
 
         <a-entity position="-68.272 -8.716 143.282" id="lanscape-rocks" obj-model="mtl:assets/objects/rock/source/model.mtl;obj:assets/objects/rock/source/model.obj" static-body="shape:box;sphereRadius:NaN"></a-entity>
         <a-entity position="-55.07 -8.716 84.929" id="lanscape-rocks-4" obj-model="mtl:assets/objects/rock/source/model.mtl;obj:assets/objects/rock/source/model.obj" static-body="shape:box;sphereRadius:NaN"></a-entity>
