@@ -21,6 +21,9 @@ window.onload = () => {
 
     const socket = io.connect('http://localhost');
 
+    const radarRect = radar.getBoundingClientRect(); 
+    const radarX = radarRect.left - content.getBoundingClientRect().left;
+
     socket.on('roverData', (data) => {
         // Rover
         if (roverHealth >= 80 && data.health < 80) {
@@ -142,8 +145,6 @@ window.onload = () => {
         goal.id = "goal";
         distance.id = "distance";
 
-        const radarRect = radar.getBoundingClientRect(); 
-        const radarX = radarRect.left - content.getBoundingClientRect().left;
         goalPosition.x += radarX + (radarRect.right - radarRect.left - 25) / 2;
         goalPosition.y += (radar.clientHeight - 25) / 2;
         goal.style.left = goalPosition.x.toString() + 'px';
