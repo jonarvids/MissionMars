@@ -1,7 +1,13 @@
 window.onload = () => {
     // Controls
+    let gameRunning = false;
+    let gameOver = false;
     let up, down, left, right;
-    let roverHealth, roverBattery, missionComplete, onRocks, onSand;
+    let roverHealth, roverBattery, onRocks, onSand;
+    let initialGoalPosition = {
+        x: 0,
+        y: 0
+    };
 
     // Elements
     const hpText = document.getElementById("hpText");
@@ -24,32 +30,58 @@ window.onload = () => {
     const radarRect = radar.getBoundingClientRect(); 
     const radarX = radarRect.left - content.getBoundingClientRect().left;
 
+    socket.on('gameData', (data) => {
+        // Set initial goal position
+        initialGoalPosition = data.goalPosition;
+
+        // See if game is over
+        if (data.gameOver && data.success) {
+            winloseText.style.color = "green";
+            winloseText.innerHTML = "UPPDRAG AVKLARAT";
+        }
+        else if (data.gameOver && !data.success) {
+            winloseText.style.color = "red";
+            winloseText.innerHTML = "UPPDRAG MISSLYCKAT";
+        }
+
+        if (data.gameOver) {
+            $('#myModal').modal('show')
+            gameRunning = false;
+            gameOver = true;
+            window.setTimeout(() => {
+                gameOver = false;
+                winloseText.style.color = "blue";
+                winloseText.innerHTML = "TRYCK FÖR ATT STARTA";
+            }, 10000);
+        }
+    });
+    
     socket.on('roverData', (data) => {
         // Rover
-        if (roverHealth >= 80 && data.health < 80) {
-            roverImages.src = "assets/images/roverImage.png";
-        } else if (roverHealth >= 60 && data.health < 60) {
+        if (roverHealth > 60 && data.health <= 60) {
             roverImages.src = "assets/images/roverImage_slightly_damaged.png";
-        } else if (roverHealth >= 40 && data.health < 40) {
+        } else if (roverHealth > 40 && data.health <= 40) {
             roverImages.src = "assets/images/roverImage_damaged.png";
             hpMeter.classList.add('bg-warning');
             hpMeter.classList.remove('bg-success');
-        } else if (roverHealth >= 20 && data.health < 20) {
+        } else if (roverHealth > 20 && data.health <= 20) {
             roverImages.src = "assets/images/roverImage_critical.png";
-        } else if (roverHealth >= 10 && data.health < 10) {
+        } else if (roverHealth > 10 && data.health <= 10) {
             hpMeter.classList.add('bg-danger');
             hpMeter.classList.remove('bg-warning');
         } else if (data.health == 0) {
             roverImages.src = "assets/images/roverImage_dead.png";
         }
 
-        if (roverBattery < 33) {
+        if (roverBattery > 40 && data.battery <= 40) {
+            batteryMeter.classList.add('bg-warning');
+        } else if (roverBattery > 10 && data.battery <= 10) {
             batteryMeter.classList.add('bg-danger');
+            batteryMeter.classList.remove('bg-warning');
         }
 
         roverHealth = data.health;
         roverBattery = data.battery;
-        missionComplete = data.missionComplete;
         onSand = data.onSand;
         onRocks = data.onRocks;
 
@@ -66,20 +98,6 @@ window.onload = () => {
             statusMsg.innerHTML = "";
         }
 
-
-        //win
-        if (missionComplete === true) {
-            $('#myModal').modal('show')
-        }
-
-        //lose
-        if (roverHealth === 0 || roverBattery === 0) {
-            winloseText.style.color = "red";
-            winloseText.innerHTML = "UPPDRAG MISSLYCKAT";
-
-            $('#myModal').modal('show')
-        }
-
         // HP
         hpText.innerHTML = Math.round(roverHealth).toString() + "%";
         hpMeter.style.width = roverHealth.toString() + "%";
@@ -89,8 +107,8 @@ window.onload = () => {
         batteryMeter.style.width = roverBattery.toString() + "%";
 
         // Goal
-        const dx = data.goalPosition.x - data.position.x;
-        const dy = data.goalPosition.y - data.position.y;
+        const dx = initialGoalPosition.x - data.position.x;
+        const dy = initialGoalPosition.y - data.position.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const maxDist = 117;
 
@@ -141,7 +159,7 @@ window.onload = () => {
         }
 
         const goal = document.createElement("div");
-        const distance = document.createElement("div")
+        const distance = document.createElement("div");
         goal.id = "goal";
         distance.id = "distance";
 
@@ -160,92 +178,153 @@ window.onload = () => {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.keyCode === 38 /* up */ ||
-            e.keyCode === 87 /* w */ ||
-            e.keyCode === 90 /* z */ ) {
-            triangleUp.style.borderColor = "red";
-            up = true;
-            socket.emit('controls', {
-                direction: 'Up',
-                pressed: true
-            });
-
-
-        }
-
-        if (e.keyCode === 39 /* right */ ||
-            e.keyCode === 68 /* d */ ) {
-            triangleRight.style.borderColor = "red";
-            right = true;
-            socket.emit('controls', {
-                direction: 'Right',
-                pressed: true
-            });
-        }
-
-        if (e.keyCode === 40 /* down */ ||
-            e.keyCode === 83 /* s */ ) {
-            triangleDown.style.borderColor = "red";
-            back = true;
-            socket.emit('controls', {
-                direction: 'Down',
-                pressed: true
-            });
-        }
-
-        if (e.keyCode === 37 /* left */ ||
-            e.keyCode === 65 /* a */ ||
-            e.keyCode === 81 /* q */ ) {
-            triangleLeft.style.borderColor = "red";
-            left = true;
-            socket.emit('controls', {
-                direction: 'Left',
-                pressed: true
-            });
+        if (!gameOver && gameRunning) {
+            switch (e.keyCode) {
+                case 87:
+                    socket.emit('controls', {
+                        direction: 'Up',
+                        pressed: true
+                    });
+                    break;
+                case 68:
+                    socket.emit('controls', {
+                        direction: 'Right',
+                        pressed: true
+                    });
+                    break;
+                case 83:
+                    socket.emit('controls', {
+                        direction: 'Down',
+                        pressed: true
+                    });
+                    break;
+                case 65:
+                    socket.emit('controls', {
+                        direction: 'Left',
+                        pressed: true
+                    });
+                    break;
+            }
         }
     });
 
     document.addEventListener('keyup', (e) => {
-        if (e.keyCode === 38 /* up */ ||
-            e.keyCode === 87 /* w */ ||
-            e.keyCode === 90 /* z */ ) {
-            triangleUp.style.borderColor = "white";
-            up = false;
-            socket.emit('controls', {
-                direction: 'Up',
-                pressed: false
-            });
+        if (!gameOver && gameRunning) {
+            switch (e.keyCode) {
+                case 87:
+                    socket.emit('controls', {
+                        direction: 'Up',
+                        pressed: false
+                    });
+                    break;
+                case 68:
+                    socket.emit('controls', {
+                        direction: 'Right',
+                        pressed: false
+                    });
+                    break;
+                case 83:
+                    socket.emit('controls', {
+                        direction: 'Down',
+                        pressed: false
+                    });
+                    break;
+                case 65:
+                    socket.emit('controls', {
+                        direction: 'Left',
+                        pressed: false
+                    });
+                    break;
+            }
+        } 
+    });
+    
+    socket.on('controls', (data) => {
+        if (!gameOver && gameRunning) {
+            switch (data.direction) {
+                case 'Up':
+                    triangleUp.style.borderColor = data.pressed ? 
+                        "red" : "white";
+                    up = data.pressed;
+                    break;
+                case 'Right':
+                    triangleRight.style.borderColor = data.pressed ? 
+                        "red" : "white";
+                    right = data.pressed;
+                    break;
+                case 'Down':
+                    triangleDown.style.borderColor = data.pressed ?
+                        "red" : "white";
+                    back = data.pressed;
+                    break;
+                case 'Left':
+                    triangleLeft.style.borderColor = data.pressed ?
+                        "red" : "white";
+                    left = data.pressed;
+                    break;
+            }
+        } else if (!gameOver && !data.pressed) {
+            $('#myModal').modal('hide');
+            gameRunning = true;
+            socket.emit('startGame');
         }
 
-        if (e.keyCode === 39 /* right */ ||
-            e.keyCode === 68 /* d */ ) {
-            triangleRight.style.borderColor = "white";
-            right = false;
-            socket.emit('controls', {
-                direction: 'Right',
-                pressed: false
-            });
-        }
+    });
 
-        if (e.keyCode === 40 /* down */ ||
-            e.keyCode === 83 /* s */ ) {
-            triangleDown.style.borderColor = "white";
-            down = false;
-            socket.emit('controls', {
-                direction: 'Down',
-                pressed: false
-            });
-        }
-
-        if (e.keyCode === 37 /* left */ ||
-            e.keyCode === 65 /* a */ ||
-            e.keyCode === 81 /* q */ ) {
-            triangleLeft.style.borderColor = "white";
-            left = false;
-            socket.emit('controls', {
-                direction: 'Left',
-                pressed: false
-            });
+    document.addEventListener('keyup', (e) => {
+        if (!gameOver && gameRunning) {
+            switch (e.keyCode) {
+                case 87:
+                    triangleUp.style.borderColor = "white";
+                    up = false;
+                    socket.emit('controls', {
+                        direction: 'Up',
+                        pressed: false
+                    });
+                    break;
+                case 68:
+                    triangleRight.style.borderColor = "white";
+                    right = false;
+                    socket.emit('controls', {
+                        direction: 'Right',
+                        pressed: false
+                    });
+                    break;
+                case 83:
+                    triangleDown.style.borderColor = "white";
+                    down = false;
+                    socket.emit('controls', {
+                        direction: 'Down',
+                        pressed: false
+                    });
+                    break;
+                case 65:
+                    triangleLeft.style.borderColor = "white";
+                    left = false;
+                    socket.emit('controls', {
+                        direction: 'Left',
+                        pressed: false
+                    });
+                    break;
+            }
+        } else if (!gameOver) {
+            $('#myModal').modal('hide');
+            gameRunning = true;
+            onSand = false;
+            onRocks = false;
+            roverImages.src = "assets/images/roverImage.png";
+            hpMeter.classList.add('bg-success');
+            hpMeter.classList.remove('bg-warning');
+            hpMeter.classList.remove('bg-danger');
+            batteryMeter.classList.remove('bg-warning');
+            batteryMeter.classList.remove('bg-danger');
+            socket.emit('startGame');
         }
     });
+
+
+
+    winloseText.style.color = "blue";
+    winloseText.innerHTML = "TRYCK FÖR ATT STARTA";
+    $('#myModal').modal('show');
 }

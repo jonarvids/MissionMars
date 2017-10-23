@@ -73,8 +73,16 @@ app.get('/mission-control', function(req, res) {
 });
 
 io.on('connection', function (socket) {
-	socket.on('controls', function (data) {
+	socket.on('startGame', (data) => {
+		io.sockets.emit('startGame', data);
+	});
+
+	socket.on('controls', (data) => {
 		io.sockets.emit('controls', data);
+	});
+
+	socket.on('gameData', (data) => {
+		io.sockets.emit('gameData', data);
 	});
 
 	socket.on('roverData', (data) => {
